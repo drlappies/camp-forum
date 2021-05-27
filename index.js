@@ -2,9 +2,6 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-const ip = "127.0.0.1";
-const port = 3000;
-
 const express = require('express'); //lib
 const app = express();
 const path = require('path');
@@ -164,6 +161,8 @@ app.use((err, req, res, next) => { //default handler
     res.status(status).render('error', { err });
 });
 
-app.listen(port, ip, () => {
-    console.log(`server running on http://${ip}:${port}`);
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+    console.log(`server running on port:${port}`);
 });
