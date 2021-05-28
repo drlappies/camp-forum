@@ -42,5 +42,5 @@ module.exports.login = (req, res) => {
 module.exports.logoutFormRender = (req, res) => {
     req.logout();
     req.flash('success', 'Bye!');
-    res.redirect('/campgrounds');
+    res.redirect('/');
 }
