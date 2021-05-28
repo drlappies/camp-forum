@@ -35,3 +35,8 @@ module.exports.reviewSchema = Joi.object({
     body: Joi.string().required().escapeHTML(),
     rating: Joi.number().required().min(1).max(5)
 }).required()
+
+module.exports.imageSchema = Joi.object({
+    url: Joi.string().required(),
+    filename: Joi.string().required()
+}).required()
