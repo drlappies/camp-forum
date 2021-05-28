@@ -123,6 +123,7 @@ const sessionConfig = { //express session config
     }
 }
 
+app.set('trust proxy', 1);
 app.use(session(sessionConfig)); //express session middleware
 
 app.use(passport.initialize());
