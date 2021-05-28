@@ -117,7 +117,7 @@ const sessionConfig = { //express session config
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        secure: false,
+        secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1000 msec * 60 sec * 60 minutes * 24 hrs * 7 days = expire after 1 week
         maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week life
     }
