@@ -113,7 +113,7 @@ const sessionConfig = { //express session config
     store: store,
     name: 'session',
     secret: secret,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
