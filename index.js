@@ -25,7 +25,8 @@ const campgroundRoutes = require('./routes/campgrounds'); //router
 const reviewRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
 
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp'
+const dbUrl = process.env.NODE_ENV !== 'production' ? 'mongodb://localhost:27017/yelp-camp' : process.env.DB_URL
+
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -35,7 +36,8 @@ mongoose.connect(dbUrl, {
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-    console.log("connected to db");
+    console.log(process.env.NODE_ENV)
+    console.log(`connected to ${dbUrl}`);
 });
 
 app.engine('ejs', engine);
@@ -95,7 +97,7 @@ app.use(
     })
 );
 
-const secret = process.env.SESSION_SECRET || 'an one cute duck';
+let secret = process.env.NODE_ENV !== 'production' ? 'an one cute ducky' : process.env.SESSION_SECRET
 
 const store = MongoStore.create({
     mongoUrl: dbUrl,
@@ -117,7 +119,7 @@ const sessionConfig = { //express session config
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV !== 'production' ? false : true, //ensure cookie is sent only over HTTPS
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1000 msec * 60 sec * 60 minutes * 24 hrs * 7 days = expire after 1 week
         maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week life
     }
@@ -134,7 +136,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    if (!['/login', '/'].includes(req.originalUrl)) {
+    if (!['/login', '/register', '/'].includes(req.originalUrl)) {
         req.session.returnTo = req.originalUrl;
     }
     res.locals.currentUser = req.user;

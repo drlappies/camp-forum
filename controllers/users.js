@@ -1,5 +1,3 @@
-
-
 const User = require('../models/user'); //models
 
 module.exports.registerFormRender = (req, res) => {
@@ -35,7 +33,6 @@ module.exports.loginFormRender = (req, res) => {
 module.exports.login = (req, res) => {
     req.flash('success', `Welcome back, ${req.user.username}!`);
     const redirectUrl = req.session.returnTo;
-    console.log(redirectUrl);
     res.redirect(redirectUrl);
 }
 
