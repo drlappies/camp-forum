@@ -16,4 +16,6 @@ router.post('/login', passport.authenticate('local', { failureFlash: true, failu
 
 router.get('/logout', users.logoutFormRender);
 
+router.get('/profile/:id', catchAsync(users.userProfileRender)) //get a specific profile
+
 module.exports = router;

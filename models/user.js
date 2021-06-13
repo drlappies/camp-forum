@@ -7,10 +7,19 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    about: {
+        type: String,
+    },
     reviews: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Review'
+        }
+    ],
+    posts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Campground'
         }
     ]
 });

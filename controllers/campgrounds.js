@@ -1,6 +1,8 @@
 const Campground = require('../models/campground'); //models
+const User = require('../models/user')
+
 const { cloudinary } = require('../cloudinary'); //cloudinary
-const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); //cloudinary config
 const mbxToken = process.env.MAPBOX_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mbxToken });
 
@@ -58,11 +60,19 @@ module.exports.new = async (req, res, next) => {
         query: req.body.location,
         limit: 1
     }).send();
+    console.log(req.files);
+    if (req.files.length === 0) {
+        req.flash('error', 'Image upload is mandatory');
+        res.redirect('/campgrounds/new')
+    }
+    const user = await User.findById(req.user._id) // user making the new campground
     const campground = new Campground(req.body);
     campground.geometry = geoData.body.features[0].geometry;
     campground.image = req.files.map(files => ({ url: files.path, filename: files.filename }));
     campground.author = req.user._id;
+    user.posts.push(campground);
     await campground.save();
+    await user.save();
     req.flash('success', 'Successfully made a new campground');
     res.redirect(`/campgrounds/${campground._id}`);
 }

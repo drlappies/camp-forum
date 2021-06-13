@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Review = require('./review');
+const User = require('./user');
 const opts = { toJSON: { virtuals: true } };
 
 const ImageSchema = new mongoose.Schema({
@@ -45,9 +46,16 @@ campgroundSchema.virtual('properties.popUpMarkUp').get(function () {
 })
 
 campgroundSchema.post('findOneAndDelete', async function (data) {
-    await Review.deleteOne({
+    await Review.deleteOne({ //when a camp gets deleted, delete all related reviews
         _id: {
             $in: data.reviews
+        }
+    })
+    await User.findByIdAndUpdate(data.author, { //when a camp gets deleted, remove this camp from user post history
+        $pull: {
+            posts: {
+                $in: data._id
+            }
         }
     })
 })

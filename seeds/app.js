@@ -29,6 +29,7 @@ const seedDB = async () => {
     const masterUser = new User({
         email: 'admin@admin.com',
         username: 'admin',
+        about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc non dignissim est. Praesent eu tempor tellus. In leo ante, imperdiet ut lacus non, fringilla vulputate purus.'
     })
     const addUser = await User.register(masterUser, 'admin');
     for (let i = 0; i < 50; i++) {
@@ -59,6 +60,8 @@ const seedDB = async () => {
                 coordinates: [cities[random1000].longitude, cities[random1000].latitude]
             }
         })
+        masterUser.posts.push(camp);
+        await masterUser.save();
         await camp.save();
     }
 }

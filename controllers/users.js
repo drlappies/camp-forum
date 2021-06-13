@@ -41,3 +41,24 @@ module.exports.logoutFormRender = (req, res) => {
     req.flash('success', 'Bye!');
     res.redirect('/');
 }
+
+module.exports.userProfileRender = async (req, res) => {
+    const redirectUrl = req.session.returnTo;
+    const { id } = req.params;
+    const user = await User.findById(id)
+        .populate('reviews')
+        .populate('posts')
+        .populate({
+            path: 'reviews',
+            populate: 'campground'
+        })
+    if (!req.user) {
+        req.flash('error', 'Please login first');
+        res.redirect('/login')
+    } else if (!user) {
+        req.flash('error', 'User profile not found');
+        res.redirect(redirectUrl);
+    } else {
+        res.render('users/profile', { user })
+    }
+}

@@ -1,14 +1,14 @@
 const BaseJoi = require('joi');
 const sanitizeHtml = require('sanitize-html');
 
-const extension = (joi) => ({ 
+const extension = (joi) => ({
     type: 'string',
     base: joi.string(), //basic Joi functions e.g joi.number(), in this case joi.string()
     messages: {
         'string.escapeHTML': '{{#label}} must not include HTML!' //error message if violated
     },
     rules: {
-        escapeHTML: { 
+        escapeHTML: {
             validate(value, helpers) {
                 const clean = sanitizeHtml(value, { //clean will be empty string if value violated the rule
                     allowedTags: [],
@@ -34,9 +34,4 @@ module.exports.campgroundSchema = Joi.object({
 module.exports.reviewSchema = Joi.object({
     body: Joi.string().required().escapeHTML(),
     rating: Joi.number().required().min(1).max(5)
-}).required()
-
-module.exports.imageSchema = Joi.object({
-    url: Joi.string().required(),
-    filename: Joi.string().required()
 }).required()
