@@ -76,7 +76,7 @@ module.exports.userProfileRender = async (req, res) => {
             posts = await Campground.find({ author: user._id, title: regex })
                 .sort({ reviews: 'descending' })
         } else if (sortby === 'nosort') {
-            posts = await Campground.find({ title: regex })
+            posts = await Campground.find({ author: user._id, title: regex })
         }
     }
     res.render('users/profile', { user, reviews, posts });
