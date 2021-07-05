@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Review = require('./review');
-const User = require('./user');
-const opts = { toJSON: { virtuals: true } };
 
 const ImageSchema = new mongoose.Schema({
     url: String,
@@ -38,24 +36,27 @@ const campgroundSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Review'
         }
-    ]
-}, opts);
+    ],
+    rating: {
+        type: Number,
+        default: 0
+    }
+}, { toJSON: { virtuals: true }, timestamps: true });
+
+campgroundSchema.index({ title: "text", description: "text", location: "text" })
 
 campgroundSchema.virtual('properties.popUpMarkUp').get(function () {
     return `<strong><div>${this.title}</div></strong><div>${this.description.substring(0, 50)} ... <a href="/campgrounds/${this._id}">More</a></div>`
 })
 
+campgroundSchema.virtual('ratingAvg').get(function () {
+    return Math.floor(this.rating / this.reviews.length)
+})
+
 campgroundSchema.post('findOneAndDelete', async function (data) {
-    await Review.deleteOne({ //when a camp gets deleted, delete all related reviews
+    await Review.deleteOne({
         _id: {
             $in: data.reviews
-        }
-    })
-    await User.findByIdAndUpdate(data.author, { //when a camp gets deleted, remove this camp from user post history
-        $pull: {
-            posts: {
-                $in: data._id
-            }
         }
     })
 })

@@ -31,6 +31,7 @@ mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    useFindAndModify: false
 })
 
 const db = mongoose.connection;
@@ -168,5 +169,5 @@ app.use((err, req, res, next) => { //default handler
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-    console.log(`server running on port:${port}`);
+    console.log(`server running on: http://localhost:${port}`);
 });

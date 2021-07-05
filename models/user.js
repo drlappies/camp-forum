@@ -10,19 +10,15 @@ const userSchema = new mongoose.Schema({
     about: {
         type: String,
     },
-    reviews: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Review'
+    icon: {
+        url: {
+            type: String
+        },
+        filename: {
+            type: String
         }
-    ],
-    posts: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Campground'
-        }
-    ]
-});
+    }
+}, { timestamps: true });
 
 userSchema.plugin(passportLocalMongoose);
 

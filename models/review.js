@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const User = require('./user');
 
 const reviewSchema = new mongoose.Schema({
     author: {
@@ -10,11 +9,15 @@ const reviewSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Campground'
     },
-    body: String,
-    rating: Number,
-});
+    body: {
+        type: String,
+    },
+    rating: {
+        type: Number
+    },
+}, { timestamps: true });
 
-reviewSchema.post('findOneAndDelete', async function (data) { // when a review gets deleted, remove the review from user review history
+reviewSchema.post('findOneAndDelete', async function (data) {
     await User.findByIdAndUpdate(data.author, {
         $pull: {
             reviews: {

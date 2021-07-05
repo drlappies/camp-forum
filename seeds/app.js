@@ -60,7 +60,6 @@ const seedDB = async () => {
                 coordinates: [cities[random1000].longitude, cities[random1000].latitude]
             }
         })
-        masterUser.posts.push(camp);
         await masterUser.save();
         await camp.save();
     }

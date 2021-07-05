@@ -1,21 +1,27 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 
-const catchAsync = require('../utils/catchAsync'); //utils
-const passport = require('passport'); //passportjs
-
+const catchAsync = require('../utils/catchAsync');
+const passport = require('passport');
 const users = require('../controllers/users');
+const { storage } = require('../cloudinary/index');
+const upload = multer({ storage });
 
 router.get('/register', users.registerFormRender);
 
-router.post('/register', catchAsync(users.register));
+router.post('/register', upload.single('profilePicture'), catchAsync(users.register));
 
 router.get('/login', users.loginFormRender);
 
 router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.login);
 
-router.get('/logout', users.logoutFormRender);
+router.get('/logout', users.logout);
 
-router.get('/profile/:id', catchAsync(users.userProfileRender)) //get a specific profile
+router.get('/profile/:id', catchAsync(users.userProfileRender));
+
+router.get('/profile/:id/edit', catchAsync(users.userProfileEditForm));
+
+router.put('/profile/:id', upload.single('profilePicture'), catchAsync(users.userProfileEdit));
 
 module.exports = router;

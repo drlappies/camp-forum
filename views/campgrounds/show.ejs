@@ -41,6 +41,9 @@
                     <li class="list-group-item">
                         Price: <%= campground.price %> /night
                     </li>
+                    <li class="list-group-item">
+                        Average Rating: <%= campground.ratingAvg %>
+                    </li>
                 </ul>
                 <% if(currentUser && campground.author.equals(currentUser._id)) { %>
                     <div class="card-body">

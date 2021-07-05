@@ -21,10 +21,6 @@ module.exports.showOne = async (req, res) => {
     const campground = await Campground.findById(id)
         .populate('reviews')
         .populate('author')
-        .populate({
-            path: 'reviews',
-            populate: 'author'
-        })
     if (!campground) {
         req.flash('error', 'Campground not found');
         res.redirect('/campgrounds');
@@ -60,7 +56,6 @@ module.exports.new = async (req, res, next) => {
         query: req.body.location,
         limit: 1
     }).send();
-    console.log(req.files);
     if (req.files.length === 0) {
         req.flash('error', 'Image upload is mandatory');
         res.redirect('/campgrounds/new')

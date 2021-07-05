@@ -5,12 +5,12 @@ const multer = require('multer');
 const { storage } = require('../cloudinary/index');
 const upload = multer({ storage });
 
-const catchAsync = require('../utils/catchAsync'); //utils
+const catchAsync = require('../utils/catchAsync'); 
 const isLoggedIn = require('../utils/isLoggedIn');
 const isAuthor = require('../utils/isAuthor');
 const validateCampground = require('../utils/validateCampground');
 
-const campgrounds = require('../controllers/campgrounds'); //controllers
+const campgrounds = require('../controllers/campgrounds'); 
 
 router.get('/', catchAsync(campgrounds.index));
 
