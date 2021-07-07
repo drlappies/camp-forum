@@ -1,14 +1,47 @@
-const Campground = require('../models/campground'); //models
+const Campground = require('../models/campground');
 const User = require('../models/user')
+const Review = require('../models/review');
 
-const { cloudinary } = require('../cloudinary'); //cloudinary
-const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); //cloudinary config
+const { cloudinary } = require('../cloudinary');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mbxToken = process.env.MAPBOX_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mbxToken });
+const escapeRegex = require('../utils/escapeRegex');
 
 module.exports.index = async (req, res) => {
-    const campground = await Campground.find({});
-    campground.reverse();
+    const { query, sortby } = req.query;
+    let campground = await Campground.find({});
+    if (sortby) {
+        if (sortby === 'highestrated') {
+            const regex = new RegExp(escapeRegex(query))
+            campground = await Campground.find({ title: regex })
+                .sort({ rating: 'descending' })
+            return;
+        } else if (sortby === 'lowestrated') {
+            const regex = new RegExp(escapeRegex(query))
+            campground = await Campground.find({ title: regex })
+                .sort({ rating: 'ascending' })
+            return;
+        } else if (sortby === 'highestpriced') {
+            const regex = new RegExp(escapeRegex(query))
+            campground = await Campground.find({ title: regex })
+                .sort({ pricing: 'descending' })
+            return;
+        } else if (sortby === 'lowestpriced') {
+            const regex = new RegExp(escapeRegex(query))
+            campground = await Campgrounds.find({ title: regex })
+                .sort({ pricing: 'ascending' })
+            return;
+        } else if (sortby === 'mostreviewed') {
+            const regex = new RegExp(escapeRegex(query))
+            campground = await Campground.find({ title: regex })
+                .sort({ reviews: 'descending' })
+            return;
+        } else if (sortby === 'nosort') {
+            const regex = new RegExp(escapeRegex(query))
+            campground = await Campground.find({ title: regex })
+        }
+    }
     res.render('campgrounds/index', { campground });
 }
 
@@ -19,7 +52,22 @@ module.exports.newFormRender = (req, res) => {
 module.exports.showOne = async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id)
-        .populate('reviews')
+        .populate({
+            path: 'reviews',
+            populate: {
+                path: 'author'
+            },
+        })
+        .populate({
+            path: 'reviews',
+            populate: {
+                path: 'children',
+                model: Review,
+                populate: {
+                    path: 'author'
+                }
+            }
+        })
         .populate('author')
     if (!campground) {
         req.flash('error', 'Campground not found');
@@ -65,7 +113,7 @@ module.exports.new = async (req, res, next) => {
     campground.geometry = geoData.body.features[0].geometry;
     campground.image = req.files.map(files => ({ url: files.path, filename: files.filename }));
     campground.author = req.user._id;
-    user.posts.push(campground);
+    user.campground.push(campground);
     await campground.save();
     await user.save();
     req.flash('success', 'Successfully made a new campground');

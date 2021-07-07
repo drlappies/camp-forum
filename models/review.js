@@ -15,6 +15,10 @@ const reviewSchema = new mongoose.Schema({
     rating: {
         type: Number
     },
+    parent: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review'
+    }
 }, { timestamps: true });
 
 reviewSchema.post('findOneAndDelete', async function (data) {

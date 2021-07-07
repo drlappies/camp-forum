@@ -2,20 +2,32 @@ const Campground = require('../models/campground');
 const Review = require('../models/review');
 
 module.exports.createReview = async (req, res) => {
-    const { rating, body } = req.body;
+    const { body } = req.body;
     const campground = await Campground.findById(req.params.id);
     const review = new Review({
         author: req.user._id,
         campground: campground,
-        rating: rating,
         body: body
     })
     campground.reviews.push(review);
-    campground.rating = campground.rating + parseInt(rating)
     await review.save();
     await campground.save();
     req.flash('success', 'Successfully created a review!');
     res.redirect(`/campgrounds/${req.params.id}`);
+}
+
+module.exports.createChildReview = async (req, res) => {
+    const { body } = req.body;
+    const { id, reviewId } = req.params;
+    const parentReview = await Review.findById(reviewId);
+    const childReview = new Review({
+        author: req.user._id,
+        campground: id,
+        body: body,
+        parent: parentReview
+    })
+    await childReview.save();
+    res.redirect(`/campgrounds/${id}`);
 }
 
 module.exports.deleteReview = async (req, res) => {

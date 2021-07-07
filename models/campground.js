@@ -13,7 +13,6 @@ ImageSchema.virtual('thumbnail').get(function () {
 const campgroundSchema = new mongoose.Schema({
     title: String,
     image: [ImageSchema],
-    price: Number,
     description: String,
     location: String,
     geometry: {
@@ -40,6 +39,16 @@ const campgroundSchema = new mongoose.Schema({
     rating: {
         type: Number,
         default: 0
+    },
+    facility: [
+        {
+            type: String,
+            enum: ['Glamping', 'Lavatory', 'Dry Toiliet', 'Toilet', 'Drying Rack', 'Table', 'Chair', 'Water Tap', 'Mobile Toilet', 'Shower', 'Playground', 'Stream' ]
+        }
+    ],
+    difficulty: {
+        type: String,
+        enum: ['Beginner', 'Intermediate', 'Experienced']
     }
 }, { toJSON: { virtuals: true }, timestamps: true });
 

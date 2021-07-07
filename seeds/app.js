@@ -34,31 +34,31 @@ const seedDB = async () => {
     const addUser = await User.register(masterUser, 'admin');
     for (let i = 0; i < 50; i++) {
         const random1000 = Math.floor(Math.random() * 1000);
-        const price = Math.floor(Math.random() * 20) + 10;
         const camp = new Campground({
             author: addUser._id,
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
             image: [
                 {
-                    url: 'https://res.cloudinary.com/davxrgxza/image/upload/v1621996800/YelpCamp/seed1_taailk.jpg',
+                    url: 'https://images.unsplash.com/photo-1476611338391-6f395a0ebc7b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1502&q=80',
                     filename: 'YelpCamp/seed1_taailk'
                 },
                 {
-                    url: 'https://res.cloudinary.com/davxrgxza/image/upload/v1621996758/YelpCamp/seed2_fkub2u.jpg',
+                    url: 'https://images.unsplash.com/photo-1476611338391-6f395a0ebc7b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1502&q=80',
                     filename: 'YelpCamp/seed2_fkub2u'
                 },
                 {
-                    url: 'https://res.cloudinary.com/davxrgxza/image/upload/v1621996876/YelpCamp/seed3_hhyxhf.jpg',
+                    url: 'https://images.unsplash.com/photo-1476611338391-6f395a0ebc7b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1502&q=80',
                     filename: 'YelpCamp/seed3_hhyxhf'
                 }
             ],
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur praesentium, tenetur facilis delectus iste quasi pariatur aperiam quibusdam fuga saepe reprehenderit. Eveniet fuga sapiente quae commodi. Deserunt saepe voluptatum nulla.',
-            price: price,
             geometry: {
                 type: 'Point',
                 coordinates: [cities[random1000].longitude, cities[random1000].latitude]
-            }
+            },
+            difficulty: 'Beginner',
+            facility: ['Glamping', 'Lavatory', 'Dry Toiliet', 'Toilet', 'Drying Rack', 'Table', 'Chair', 'Water Tap', 'Mobile Toilet', 'Shower', 'Playground', 'Stream']
         })
         await masterUser.save();
         await camp.save();

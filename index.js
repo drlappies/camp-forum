@@ -2,7 +2,7 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-const express = require('express'); //lib
+const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
@@ -14,14 +14,14 @@ const helmet = require('helmet');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
-const passport = require('passport'); //passport.js 
+const passport = require('passport'); 
 const LocalStrategy = require('passport-local');
 
-const User = require('./models/user'); //model
+const User = require('./models/user');
 
-const ExpressError = require('./utils/ExpressError'); //utils
+const ExpressError = require('./utils/ExpressError');
 
-const campgroundRoutes = require('./routes/campgrounds'); //router
+const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
 
@@ -112,7 +112,7 @@ store.on('error', function (error) {
     console.log('session store error', error)
 })
 
-const sessionConfig = { //express session config
+const sessionConfig = {
     store: store,
     name: 'session',
     secret: secret,
@@ -120,19 +120,19 @@ const sessionConfig = { //express session config
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== 'production' ? false : true, //ensure cookie is sent only over HTTPS
+        secure: process.env.NODE_ENV !== 'production' ? false : true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1000 msec * 60 sec * 60 minutes * 24 hrs * 7 days = expire after 1 week
         maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week life
     }
 }
 
 app.set('trust proxy', 1);
-app.use(session(sessionConfig)); //express session middleware
+app.use(session(sessionConfig));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy(User.authenticate())); // local strats
+passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -158,7 +158,7 @@ app.all('*', (res, req, next) => {
     next(new ExpressError('Page not found', 404));
 });
 
-app.use((err, req, res, next) => { //default handler
+app.use((err, req, res, next) => {
     const { status = 500 } = err;
     if (!err.message) {
         err.message = "Something went wrong :'("

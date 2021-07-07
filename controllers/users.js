@@ -52,30 +52,40 @@ module.exports.logout = (req, res) => {
 module.exports.userProfileRender = async (req, res) => {
     const { id } = req.params;
     const { query, sortby } = req.query;
-    const regex = new RegExp(escapeRegex(query))
     const user = await User.findById(id);
     const reviews = await Review.find({})
+        .populate('campground')
         .where('author').equals(user._id);
-    let posts = await Campground.find({})
-        .where('author').equals(user._id);
+    let posts = await Campground.find({ author: user._id })
 
     if (sortby) {
         if (sortby === 'highestrated') {
+            const regex = new RegExp(escapeRegex(query))
             posts = await Campground.find({ author: user._id, title: regex })
                 .sort({ rating: 'descending' })
+            return;
         } else if (sortby === 'lowestrated') {
+            const regex = new RegExp(escapeRegex(query))
             posts = await Campground.find({ author: user._id, title: regex })
                 .sort({ rating: 'ascending' })
+            return;
         } else if (sortby === 'highestpriced') {
+            const regex = new RegExp(escapeRegex(query))
             posts = await Campground.find({ author: user._id, title: regex })
                 .sort({ pricing: 'descending' })
+            return;
         } else if (sortby === 'lowestpriced') {
+            const regex = new RegExp(escapeRegex(query))
             posts = await Campgrounds.find({ author: user._id, title: regex })
                 .sort({ pricing: 'ascending' })
+            return;
         } else if (sortby === 'mostreviewed') {
+            const regex = new RegExp(escapeRegex(query))
             posts = await Campground.find({ author: user._id, title: regex })
                 .sort({ reviews: 'descending' })
+            return;
         } else if (sortby === 'nosort') {
+            const regex = new RegExp(escapeRegex(query))
             posts = await Campground.find({ author: user._id, title: regex })
         }
     }
