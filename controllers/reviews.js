@@ -24,7 +24,8 @@ module.exports.createChildReview = async (req, res) => {
         author: req.user._id,
         body: body,
         campground: id,
-        isParent: false
+        isParent: false,
+        directParent: parentReview
     })
     parentReview.children.push(childReview);
     await parentReview.save();

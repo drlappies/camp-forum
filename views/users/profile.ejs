@@ -36,33 +36,43 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <h5>Recent comments:</h5>
+                <h5>Recent comments</h5>
                 <% if(!reviews.length){ %>
                     <div class="text-muted">
                         <%= user.username %> has not made any comments yet :'(
                     </div>
                     <% } %>
                         <% reviews.forEach(review=> { %>
-                            <div class="card mb-3">
-                                <div class="card-header">
-                                    @<%= review.campground.title%>
-                                        <a class="float-end text-body"
-                                            href="/campgrounds/<%= review.campground._id%>"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-arrow-return-right"
-                                                viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd"
-                                                    d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z" />
-                                            </svg>
+                            <% if(!review.directParent) {%>
+                                <div class="card mb-3">
+                                    <div class="card-header">
+                                        Created a comment
+                                        @<a href="/campgrounds/<%= review.campground._id%>">
+                                            <%= review.campground.title%>
                                         </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <small class="card-text">
+                                            <%=review.body %>
+                                        </small>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        <%=review.body %>
-                                    </p>
-                                </div>
-                            </div>
-                            <% }) %>
+                                <% } else { %>
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            Replying to <%= review.directParent.author.username %>
+                                                @<a href="/campgrounds/<%= review.campground._id%>">
+                                                    <%=review.campground.title%>
+                                                </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <small class="card-text">
+                                                <%= review.body %>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                        <% }) %>
             </div>
             <div class="col-md-8">
                 <form class="row g-1" action="/profile/<%=user._id%>" method="GET">

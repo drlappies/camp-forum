@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate') %>
+    <div class="container">
+        <form action="/profile" method="GET">
+            <div class="row">
+                <div class="col-lg-11 my-1">
+                    <span class="input-group">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-search" viewBox="0 0 16 16">
+                                <path
+                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg>
+                        </span>
+                        <input class="form-control" type="text" name="query" placeholder="Search by username">
+                    </span>
+                </div>
+                <div class="col-lg-1 d-grid my-1">
+                    <button class="btn btn-secondary btn-sm" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="d-flex flex-row justify-content-center">
+            <% users.forEach(user=> { %>
+                <div class="card my-3 mx-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="<%= user.icon.url%>" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= user.username%>
+                                </h5>
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to
+                                    additional content. This content is a little bit longer.</p>
+                                <a class="btn btn-secondary btn-sm float-end" href="/profile/<%=user._id%>">Go to</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+    </div>

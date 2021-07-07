@@ -9,29 +9,20 @@ const map = new mapboxgl.Map({
 map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
 
 map.on('load', function () {
-    console.log('map loaded')
-    // Add a new source from our GeoJSON data and
-    // set the 'cluster' option to true. GL-JS will
-    // add the point_count property to your source data.
-    map.addSource('campgrounds', { //callback - source name
+    map.addSource('campgrounds', { 
         type: 'geojson',
         data: campground,
         cluster: true,
-        clusterMaxZoom: 14, // Max zoom to cluster points on
-        clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+        clusterMaxZoom: 14,
+        clusterRadius: 50
     });
 
     map.addLayer({
         id: 'clusters',
         type: 'circle',
-        source: 'campgrounds', //source name
+        source: 'campgrounds',
         filter: ['has', 'point_count'],
         paint: {
-            // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-            // with three steps to implement three types of circles:
-            //   * Blue, 20px circles when point count is less than 100
-            //   * Yellow, 30px circles when point count is between 100 and 750
-            //   * Pink, 40px circles when point count is greater than or equal to 750
             'circle-color': [
                 'step',
                 ['get', 'point_count'],
@@ -77,8 +68,6 @@ map.on('load', function () {
             'circle-stroke-color': '#fff'
         }
     });
-
-    // inspect a cluster on click
     map.on('click', 'clusters', function (e) {
         console.log(`cluster clicked ${e}`)
         const features = map.queryRenderedFeatures(e.point, {
@@ -97,18 +86,9 @@ map.on('load', function () {
             }
         );
     });
-
-    // When a click event occurs on a feature in
-    // the unclustered-point layer, open a popup at
-    // the location of the feature, with
-    // description HTML from its properties.
     map.on('click', 'unclustered-point', function (e) {
         const text = e.features[0].properties.popUpMarkUp;
         const coordinates = e.features[0].geometry.coordinates.slice();
-
-        // Ensure that if the map is zoomed out such that
-        // multiple copies of the feature are visible, the
-        // popup appears over the copy being pointed to.
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
             coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
         }

@@ -49,14 +49,29 @@ module.exports.logout = (req, res) => {
     res.redirect('/');
 }
 
+module.exports.allProfiles = async (req, res) => {
+    const { query } = req.query;
+    let users = await User.find({});
+    if (query) {
+        const regex = new RegExp(escapeRegex(query))
+        users = await User.find({ username: regex });
+    }
+    res.render('users/users', { users })
+}
+
 module.exports.userProfileRender = async (req, res) => {
     const { id } = req.params;
     const { query, sortby } = req.query;
     const user = await User.findById(id);
     const reviews = await Review.find({})
         .populate('campground')
+        .populate({
+            path: 'directParent',
+            populate: 'author'
+        })
         .where('author').equals(user._id);
     let posts = await Campground.find({ author: user._id })
+    console.log(reviews)
 
     if (sortby) {
         if (sortby === 'highestrated') {

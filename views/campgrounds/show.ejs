@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-3">
+            <div class="col-3 d-none d-lg-block">
                 <div class="card my-3">
                     <div class="card-header fw-bold">
                         Difficulty
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-lg-9">
                 <div class="card my-3">
                     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
@@ -68,10 +68,19 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item text-muted">
-                            <span>Posted by <%=campground.author.username %> on <%= campground.createdAt %>
-                            </span>
+                            <small>Posted by <%=campground.author.username %> on <%= campground.createdAt %></small>
                         </li>
                     </ul>
+                </div>
+                <div class="d-lg-none">
+                    <span class="badge rounded-pill bg-secondary">
+                        <%= campground.difficulty%>
+                    </span>
+                    <% campground.facility.forEach(el=> { %>
+                        <span class="badge rounded-pill bg-secondary">
+                            <%= el %>
+                        </span>
+                        <% }) %>
                 </div>
                 <% if (currentUser){ %>
                     <div class="row">
@@ -84,15 +93,14 @@
                         </div>
                         <div class="collapse" id="collapseMainComment">
                             <div class="card card-body my-1">
-                                <form class="mb-3 validated-form" action="/campgrounds/<%= campground._id %>/reviews"
+                                <form class="validated-form" action="/campgrounds/<%= campground._id %>/reviews"
                                     method="POST" novalidate>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="body">Comment:</label>
-                                        <textarea class="form-control" name="body" id="body" cols="30" rows="3"
+                                    <div class="my-2">
+                                        <textarea class="form-control" name="body" cols="30" rows="3"
                                             required></textarea>
                                     </div>
                                     <div class="float-end">
-                                        <button class="btn btn-secondary">Submit</button>
+                                        <button class="btn btn-secondary">Comment</button>
                                     </div>
                                 </form>
                             </div>
@@ -100,11 +108,15 @@
                     </div>
                     <% } %>
                         <div class="d-flex justify-content-center">
-                            <% if(!reviews.length) { %>
+                            <% if(!currentUser) { %>
                                 <div class="text-muted my-5">
-                                    No one has commented yet :'( Click 'Leave a comment' to be the first one!
+                                    Register and join today to make a voice!
                                 </div>
-                                <% } %>
+                                <% } else if (!reviews.length) {%>
+                                    <div class="text-muted my-5">
+                                        No one has commented yet :'( Click 'Leave a comment' to be the first one!
+                                    </div>
+                                    <% } %>
                         </div>
                         <div>
                             <%- include('../partials/comment', {items: reviews}) %>

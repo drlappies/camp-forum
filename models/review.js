@@ -20,6 +20,10 @@ const reviewSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    directParent: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review'
+    },
     children: [
         {
             type: mongoose.Schema.Types.ObjectId,

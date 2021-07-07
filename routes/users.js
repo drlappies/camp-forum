@@ -18,6 +18,8 @@ router.post('/login', passport.authenticate('local', { failureFlash: true, failu
 
 router.get('/logout', users.logout);
 
+router.get('/profile', catchAsync(users.allProfiles));
+
 router.get('/profile/:id', catchAsync(users.userProfileRender));
 
 router.get('/profile/:id/edit', catchAsync(users.userProfileEditForm));
