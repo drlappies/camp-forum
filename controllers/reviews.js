@@ -22,10 +22,12 @@ module.exports.createChildReview = async (req, res) => {
     const parentReview = await Review.findById(reviewId);
     const childReview = new Review({
         author: req.user._id,
-        campground: id,
         body: body,
-        parent: parentReview
+        campground: id,
+        isParent: false
     })
+    parentReview.children.push(childReview);
+    await parentReview.save();
     await childReview.save();
     res.redirect(`/campgrounds/${id}`);
 }

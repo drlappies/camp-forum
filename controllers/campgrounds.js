@@ -51,29 +51,14 @@ module.exports.newFormRender = (req, res) => {
 
 module.exports.showOne = async (req, res) => {
     const { id } = req.params;
+    const reviews = await Review.find({ campground: id, isParent: true }).populate('author');
     const campground = await Campground.findById(id)
-        .populate({
-            path: 'reviews',
-            populate: {
-                path: 'author'
-            },
-        })
-        .populate({
-            path: 'reviews',
-            populate: {
-                path: 'children',
-                model: Review,
-                populate: {
-                    path: 'author'
-                }
-            }
-        })
         .populate('author')
     if (!campground) {
         req.flash('error', 'Campground not found');
         res.redirect('/campgrounds');
     } else {
-        res.render('campgrounds/show', { campground });
+        res.render('campgrounds/show', { campground, reviews });
     }
 }
 
@@ -108,7 +93,7 @@ module.exports.new = async (req, res, next) => {
         req.flash('error', 'Image upload is mandatory');
         res.redirect('/campgrounds/new')
     }
-    const user = await User.findById(req.user._id) // user making the new campground
+    const user = await User.findById(req.user._id)
     const campground = new Campground(req.body);
     campground.geometry = geoData.body.features[0].geometry;
     campground.image = req.files.map(files => ({ url: files.path, filename: files.filename }));
