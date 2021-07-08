@@ -36,10 +36,6 @@ const campgroundSchema = new mongoose.Schema({
             ref: 'Review'
         }
     ],
-    count: {
-        type: Number,
-        default: 0
-    },
     like: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -78,10 +74,6 @@ campgroundSchema.index({ title: "text", description: "text", location: "text" })
 
 campgroundSchema.virtual('properties.popUpMarkUp').get(function () {
     return `<strong><div>${this.title}</div></strong><div>${this.description.substring(0, 50)} ... <a href="/campgrounds/${this._id}">More</a></div>`
-})
-
-campgroundSchema.virtual('ratingAvg').get(function () {
-    return Math.floor(this.count / (this.like.length + this.dislike.length))
 })
 
 campgroundSchema.post('findOneAndDelete', async function (data) {
