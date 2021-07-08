@@ -1,6 +1,7 @@
 const Campground = require('../models/campground');
 const User = require('../models/user')
 const Review = require('../models/review');
+const mongoose = require('mongoose');
 
 const { cloudinary } = require('../cloudinary');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
@@ -12,34 +13,16 @@ module.exports.index = async (req, res) => {
     const { query, sortby } = req.query;
     let campground = await Campground.find({});
     if (sortby) {
-        if (sortby === 'highestrated') {
-            const regex = new RegExp(escapeRegex(query))
-            campground = await Campground.find({ title: regex })
-                .sort({ rating: 'descending' })
-            return;
-        } else if (sortby === 'lowestrated') {
-            const regex = new RegExp(escapeRegex(query))
-            campground = await Campground.find({ title: regex })
-                .sort({ rating: 'ascending' })
-            return;
-        } else if (sortby === 'highestpriced') {
-            const regex = new RegExp(escapeRegex(query))
-            campground = await Campground.find({ title: regex })
-                .sort({ pricing: 'descending' })
-            return;
-        } else if (sortby === 'lowestpriced') {
-            const regex = new RegExp(escapeRegex(query))
-            campground = await Campgrounds.find({ title: regex })
-                .sort({ pricing: 'ascending' })
-            return;
-        } else if (sortby === 'mostreviewed') {
-            const regex = new RegExp(escapeRegex(query))
-            campground = await Campground.find({ title: regex })
-                .sort({ reviews: 'descending' })
-            return;
-        } else if (sortby === 'nosort') {
-            const regex = new RegExp(escapeRegex(query))
-            campground = await Campground.find({ title: regex })
+        if (sortby === 'mostrecent') {
+            const regex = new RegExp(escapeRegex(query));
+            campground = await Campground
+                .find({ title: regex })
+                .sort({ createdAt: 'descending' });
+        } else if (sortby === 'mostupdated') {
+            const regex = new RegExp(escapeRegex(query));
+            campground = await Campground
+                .find({ title: regex })
+                .sort({ updatedAt: 'descending' })
         }
     }
     res.render('campgrounds/index', { campground });
@@ -110,4 +93,67 @@ module.exports.delete = async (req, res) => {
     await Campground.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted a campground');
     res.redirect('/campgrounds');
+}
+
+module.exports.rating = async (req, res) => {
+    const user = await User.findById(req.user._id);
+    console.log(user)
+    const hasLiked = await Campground.find({
+        like: {
+            $in: req.user._id
+        }
+    })
+    const hasDisliked = await Campground.find({
+        dislike: {
+            $in: req.user._id
+        }
+    })
+    const { status } = req.body
+    if (status === "like") {
+        if (hasLiked.length) {
+            console.log('you dont like twice');
+            return;
+        } else if (hasDisliked.length) {
+            console.log('this guy disliked, pull from dislike and push to like');
+            const campground = await Campground.findByIdAndUpdate(req.params.id, {
+                $pull: {
+                    dislike: {
+                        $in: req.user._id
+                    }
+                }
+            })
+            campground.like.push(req.user._id);
+            await campground.save();
+            return;
+        } else {
+            console.log('this guy never rated, push to like')
+            const campground = await Campground.findById(req.params.id);
+            campground.like.push(req.user._id);
+            await campground.save();
+        }
+        return;
+    } else if (status === "dislike") {
+        if (hasDisliked.length) {
+            console.log('you dont dislike twice');
+            return;
+        } else if (hasLiked.length) {
+            console.log('this guy liked, pull from like to dislike');
+            const campground = await Campground.findByIdAndUpdate(req.params.id, {
+                $pull: {
+                    like: {
+                        $in: req.user._id
+                    }
+                }
+            })
+            campground.dislike.push(req.user._id);
+            await campground.save();
+            return;
+        } else {
+            console.log('never rated, push to dislike');
+            const campground = await Campground.findById(req.params.id);
+            campground.dislike.push(req.user._id);
+            await campground.save();
+        }
+    }
+    res.end();
 }

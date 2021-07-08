@@ -4,13 +4,7 @@
         <div class="row mb-5">
             <div class="col-md-4 d-flex justify-content-center">
                 <div>
-                    <% if(user.icon.url){ %>
-                        <img class="img-thumbnail" src="<%= user.icon.url%>" alt="icon">
-                        <% } else { %>
-                            <img class="img-thumbnail"
-                                src="https://res.cloudinary.com/davxrgxza/image/upload/v1625464394/YelpCamp/default-profile-pic-e1513291410505_xmic5z.jpg"
-                                alt="icon">
-                            <% } %>
+                    <img class="img-thumbnail" src="<%= user.icon.url%>" alt="icon">
                 </div>
             </div>
             <div class="col-md-8">

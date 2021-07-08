@@ -36,20 +36,42 @@ const campgroundSchema = new mongoose.Schema({
             ref: 'Review'
         }
     ],
-    rating: {
+    count: {
         type: Number,
         default: 0
     },
-    facility: [
+    like: [
         {
-            type: String,
-            enum: ['Glamping', 'Lavatory', 'Dry Toiliet', 'Toilet', 'Drying Rack', 'Table', 'Chair', 'Water Tap', 'Mobile Toilet', 'Shower', 'Playground', 'Stream' ]
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
         }
     ],
-    difficulty: {
-        type: String,
-        enum: ['Beginner', 'Intermediate', 'Experienced']
-    }
+    dislike: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        }
+    ],
+    tag: [
+        {
+            type: Object,
+            enum: [
+                { tagName: 'Glamping', tagColor: '#B2B2B2' },
+                { tagName: 'Toilet', tagColor: '#3F7FBF' },
+                { tagName: 'Drying Rack', tagColor: '#A3F4F4' },
+                { tagName: 'Table', tagColor: '#B96D21' },
+                { tagName: 'Chair', tagColor: '#B96D21' },
+                { tagName: 'Water Tap', tagColor: '#B2DBDB' },
+                { tagName: 'Shower', tagColor: '#3FBFBF' },
+                { tagName: 'Playground', tagColor: '#BF7F3F' },
+                { tagName: 'Stream', tagColor: '#3F7FBF' },
+                { tagName: 'Starnight', tagColor: '#1C1616' },
+                { tagName: 'Beginner', tagColor: '#3FBF3F' },
+                { tagName: 'Intermediate', tagColor: '#BFBF3F' },
+                { tagName: 'Expert', tagColor: '#BF3F3F' }
+            ]
+        }
+    ],
 }, { toJSON: { virtuals: true }, timestamps: true });
 
 campgroundSchema.index({ title: "text", description: "text", location: "text" })
@@ -59,7 +81,7 @@ campgroundSchema.virtual('properties.popUpMarkUp').get(function () {
 })
 
 campgroundSchema.virtual('ratingAvg').get(function () {
-    return Math.floor(this.rating / this.reviews.length)
+    return Math.floor(this.count / (this.like.length + this.dislike.length))
 })
 
 campgroundSchema.post('findOneAndDelete', async function (data) {

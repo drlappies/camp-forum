@@ -57,8 +57,21 @@ const seedDB = async () => {
                 type: 'Point',
                 coordinates: [cities[random1000].longitude, cities[random1000].latitude]
             },
-            difficulty: 'Beginner',
-            facility: ['Glamping', 'Lavatory', 'Dry Toiliet', 'Toilet', 'Drying Rack', 'Table', 'Chair', 'Water Tap', 'Mobile Toilet', 'Shower', 'Playground', 'Stream']
+            tag: [
+                { tagName: 'Glamping', tagColor: '#B2B2B2' },
+                { tagName: 'Toilet', tagColor: '#3F7FBF' },
+                { tagName: 'Drying Rack', tagColor: '#A3F4F4' },
+                { tagName: 'Table', tagColor: '#B96D21' },
+                { tagName: 'Chair', tagColor: '#B96D21' },
+                { tagName: 'Water Tap', tagColor: '#B2DBDB' },
+                { tagName: 'Shower', tagColor: '#3FBFBF' },
+                { tagName: 'Playground', tagColor: '#BF7F3F' },
+                { tagName: 'Stream', tagColor: '#3F7FBF' },
+                { tagName: 'Starnight', tagColor: '#1C1616' },
+                { tagName: 'Beginner', tagColor: '#3FBF3F' },
+                { tagName: 'Intermediate', tagColor: '#BFBF3F' },
+                { tagName: 'Expert', tagColor: '#BF3F3F' }
+            ]
         })
         await masterUser.save();
         await camp.save();

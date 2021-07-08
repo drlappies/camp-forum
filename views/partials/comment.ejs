@@ -1,53 +1,51 @@
 <% if (items.length) { %>
     <% items.forEach((review, i)=> { %>
         <div class="card card-body my-1">
-            <div class="row g-0">
-                <div class="col-1">
-                    <div class="row">
-                        <div class="col-12">
-                            <img class="profile-pic" src="<%= review.author.icon.url %>" alt="reviewer icon">
+            <div class="d-flex flex-column">
+                <div class="d-flex flex-row">
+                    <div class="mx-2">
+                        <img class="profile-pic" src="<%= review.author.icon.url %>" alt="reviewer icon">
+                    </div>
+                    <div class="mx-2 flex-grow-1">
+                        <div>
+                            <%= review.author.username %>
+                        </div>
+                        <div>
+                            <small class="text-muted">
+                                <%= review.createdAt %>
+                            </small>
                         </div>
                     </div>
+                    <div>
+                        <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseChildComment<%=review._id%>" aria-expanded="false"
+                            aria-controls="collapseChildComment">
+                            Reply
+                        </button>
+                    </div>
                 </div>
-                <div class="col-11">
-                    <div>
-                        <%= review.author.username %>
-                            <button class="btn btn-secondary btn-sm float-end" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseChildComment<%=review._id%>" aria-expanded="false"
-                                aria-controls="collapseChildComment">
-                                Reply
-                            </button>
-                    </div>
-                    <div>
-                        <small class="text-muted">
-                            <%= review.createdAt %>
-                        </small>
-                    </div>
-                    <div class="my-1">
-                        <%= review.body %>
-                    </div>
-                    <div class="collapse row" id="collapseChildComment<%=review._id%>">
-                        <form class="mb-3 validated-form col-12"
-                            action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>" method="POST"
-                            novalidate>
-                            <div class="mb-3">
-                                <label class="form-label" for="body">
-                                    <small class="text-muted">Replying to <%= review.author.username %>
-                                    </small>
-                                </label>
-                                <textarea class="form-control" name="body" id="body" cols="30" rows="3"
-                                    required></textarea>
-                                <div class="my-2 col-12">
-                                    <button class="btn btn-secondary btn-sm float-end">Submit</button>
-                                </div>
+                <div class="my-3 mx-5 px-4">
+                    <%= review.body %>
+                </div>
+                <div class="collapse" id="collapseChildComment<%=review._id%>">
+                    <form class="mb-3 validated-form"
+                        action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>" method="POST" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label" for="body">
+                                <small class="text-muted">Replying to <%= review.author.username %>
+                                </small>
+                            </label>
+                            <textarea class="form-control" name="body" id="body" cols="30" rows="3" required></textarea>
+                            <div class="my-2 ">
+                                <button class="btn btn-secondary btn-sm float-end">Submit</button>
                             </div>
-                        </form>
-                    </div>
-                    <div>
-                        <%- include('../partials/comment', {items: review.children}) %>
-                    </div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <%- include('../partials/comment', {items: review.children}) %>
                 </div>
             </div>
         </div>
         <% }) %>
-    <% } %>
+            <% } %>

@@ -11,46 +11,69 @@
                                 d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                         </svg>
                     </span>
-                    <input class="form-control" type="text" name="query">
+                    <input class="form-control" type="text" name="query" placeholder="Search by title">
                 </div>
             </div>
             <div class="col-lg-3">
                 <select class="form-select" name="sortby">
-                    <option value="nosort" selected>Sort By:</option>
-                    <option value="latest">Latest</option>
-                    <option value="earliest">Earliest</option>
-                    <option value="highestrated">Highest rated</option>
-                    <option value="lowestrated">Lowest rated</option>
-                    <option value="highestpriced">Highest priced</option>
-                    <option value="lowestpriced">Lowest priced</option>
-                    <option value="mostreviewed">Most reviewed</option>
+                    <option value="mostrecent" selected>Most Recent</option>
+                    <option value="mostupdated">Most Updated</option>
+                    <option value="mostreviewed">Most Reviewed</option>
+                    <option value="mostpositive">Most Positive</option>
                 </select>
             </div>
             <div class="col-lg-1 d-grid">
                 <button class="btn btn-secondary" type="submit">Search</button>
             </div>
         </form>
-        <div class="d-flex flex-wrap justify-content-start">
-        <% for (let camp of campground){ %>
-            <div class="card my-2 mx-2" style="width: 300px;">
-                <img class="img-fluid" alt="" src="<%= camp.image[0].url %>">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <%= camp.title %>
-                    </h5>
-                    <p class="card-text">
-                        <%= camp.description.substring(0, 100).concat(' '+' ...')%>
-                    </p>
-                    <p class="card-text">
-                        <small class="text-muted">
-                            <%= camp.location%>
-                        </small>
-                    </p>
-                    <a class="btn btn-secondary float-end" href="/campgrounds/<%= camp._id %>">Read more
-                    </a>
+        <div class="d-flex flex-column aligns-item-stretch">
+            <% for (let camp of campground){ %>
+                <div class="card my-2 d-flex flex-row">
+                    <img class="d-none d-md-block" style="width:300px; height: 200px;" src="<%= camp.image[0].url %>"
+                        alt="img-thumbnail">
+                    <div class="card-body">
+                        <div class="card-title fs-5 my-1">
+                            <%= camp.title %>
+                                <span class="float-end">
+                                    <svg class="align-middle" xmlns="http://www.w3.org/2000/svg" width="16"
+                                        height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill"
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z" />
+                                    </svg> 
+                                    <span class="align-middle">
+                                        <%= camp.like.length %>
+                                    </span>
+                                    <svg class="align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-down-fill" viewBox="0 0 16 16">
+                                        <path d="M6.956 14.534c.065.936.952 1.659 1.908 1.42l.261-.065a1.378 1.378 0 0 0 1.012-.965c.22-.816.533-2.512.062-4.51.136.02.285.037.443.051.713.065 1.669.071 2.516-.211.518-.173.994-.68 1.2-1.272a1.896 1.896 0 0 0-.234-1.734c.058-.118.103-.242.138-.362.077-.27.113-.568.113-.856 0-.29-.036-.586-.113-.857a2.094 2.094 0 0 0-.16-.403c.169-.387.107-.82-.003-1.149a3.162 3.162 0 0 0-.488-.9c.054-.153.076-.313.076-.465a1.86 1.86 0 0 0-.253-.912C13.1.757 12.437.28 11.5.28H8c-.605 0-1.07.08-1.466.217a4.823 4.823 0 0 0-.97.485l-.048.029c-.504.308-.999.61-2.068.723C2.682 1.815 2 2.434 2 3.279v4c0 .851.685 1.433 1.357 1.616.849.232 1.574.787 2.132 1.41.56.626.914 1.28 1.039 1.638.199.575.356 1.54.428 2.591z"/>
+                                      </svg>
+                                      <span class="align-middle">
+                                          <%= camp.dislike.length %>
+                                      </span>
+                                </span>
+                        </div>
+                        <div class="card-text my-1">
+                            <%= camp.description.substring(0, 160).concat('...')%>
+                        </div>
+                        <div class="card-text my-1">
+                            <small class="text-muted fst-italic">
+                                <%= camp.location %>
+                            </small>
+                        </div>
+                        <div class="my-1">
+                            <% for(let el of camp.tag) { %>
+                                <span class="badge rounded-pill" style="background-color: <%= el.tagColor %>;">
+                                    <%= el.tagName %>
+                                </span>
+                                <% } %>
+                        </div>
+                        <div class="my-1">
+                            <small class="fst-italic text-muted">Last updated on <%= camp.updatedAt %></small>
+                        </div>
+                        <a class="stretched-link" href="/campgrounds/<%= camp._id %>"></a>
+                    </div>
                 </div>
-            </div>
-            <% } %>
+                <% } %>
         </div>
     </div>
     <script>

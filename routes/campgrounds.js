@@ -5,12 +5,12 @@ const multer = require('multer');
 const { storage } = require('../cloudinary/index');
 const upload = multer({ storage });
 
-const catchAsync = require('../utils/catchAsync'); 
+const catchAsync = require('../utils/catchAsync');
 const isLoggedIn = require('../utils/isLoggedIn');
 const isAuthor = require('../utils/isAuthor');
 const validateCampground = require('../utils/validateCampground');
 
-const campgrounds = require('../controllers/campgrounds'); 
+const campgrounds = require('../controllers/campgrounds');
 
 router.get('/', catchAsync(campgrounds.index));
 
@@ -22,7 +22,9 @@ router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(campgrounds.editFormRen
 
 router.put('/:id', isLoggedIn, isAuthor, upload.array('image'), validateCampground, catchAsync(campgrounds.edit));
 
-router.post('/', isLoggedIn, upload.array('image'), validateCampground, catchAsync(campgrounds.new));
+router.post('/', isLoggedIn, upload.array('image'), validateCampground, catchAsync(campgrounds.new))
+
+router.post('/:id', catchAsync(campgrounds.rating));
 
 router.delete('/:id', isLoggedIn, isAuthor, catchAsync(campgrounds.delete));
 
