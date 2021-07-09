@@ -1,6 +1,5 @@
 <% layout('layouts/boilerplate') %>
     <div class="row">
-        <h1 class="text-center">New Campgrounds</h1>
         <div class="col-6 offset-3">
             <form action="/campgrounds" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
                 <div class="mb-3">
@@ -8,30 +7,6 @@
                     <input class="form-control" type="text" id="validationCustom01" name="title" required>
                     <div class="valid-feedback">
                         Looks good!
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="validationCustom02">Location</label>
-                    <input class="form-control" type="text" id="validationCustom02" name="location" required>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div class="mb-3">
-                        <label for="formFileMultiple" class="form-label">Images upload</label>
-                        <input class="form-control" type="file" id="formFileMultiple" name="image" multiple>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="validationCustom04">Price</label>
-                    <div class="input-group">
-                        <span class="input-group-text" id="basic-addon1">$</span>
-                        <input type="text" class="form-control" id="validationCustom04" placeholder="0.00"
-                            aria-label="price" aria-describedby="price-label" name="price" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -43,9 +18,127 @@
                     </div>
                 </div>
                 <div class="mb-3">
+                    <label class="form-label" for="validationCustom02">Location</label>
+                    <input class="form-control" type="text" id="validationCustom02" name="location" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div>Tags</div>
+                <div id="sortable1" class="sortable1 dropzone my-3">
+
+                </div>
+                <div id="sortable2" class="sortable2 dropzone my-3">
+                    <div name="Glamping" class="badge mx-1 my-1" style="background-color: #B2B2B2">
+                        <span class="align-middle">Glamping</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
+                        </span>
+                    </div>
+                    <div name="Toilet" class="badge mx-1 my-1" style="background-color: #3F7FBF;">
+                        <span class="align-middle">Toilet</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
+                        </span>
+                    </div>
+                    <div name="Drying Rack" class="badge mx-1 my-1" style="background-color: #A3F4F4;">
+                        <span class="align-middle">Drying Rack</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
+                        </span>
+                    </div>
+                    <div name="Table" class="badge mx-1 my-1" style="background-color: #B96D21;">
+                        <span class="align-middle">Table</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
+                        </span>
+                    </div>
+                    <div name="Chair" class="badge mx-1 my-1" style="background-color: #B96D21;">
+                        <span class="align-middle">Chair</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white">
+                            </button>
+                        </span>
+                    </div>
+                    <div name="Water Tap" class="badge mx-1 my-1" style="background-color: #B2DBDB;">
+                        <span class="align-middle">Water Tap</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white">
+                            </button>
+                        </span>
+                    </div>
+                    <div name="Shower" class="badge mx-1 my-1" style="background-color: #3FBFBF;">
+                        <span class="align-middle">Shower</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white">
+                            </button>
+                        </span>
+                    </div>
+                    <div name="Playground" class="badge mx-1 my-1" style="background-color: #BF7F3F;">
+                        <span class="align-middle">Playground</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white">
+                            </button>
+                        </span>
+                    </div>
+                    <div name="" class="badge mx-1 my-1" style="background-color: #3F7FBF;">
+                        <span class="align-middle">Stream</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
+                        </span>
+                    </div>
+                    <div class="badge mx-1 my-1" style="background-color: #1C1616;">
+                        <span class="align-middle">Starnight</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
+                        </span>
+                    </div>
+                    <div class="badge mx-1 my-1" style="background-color: #3FBF3F;">
+                        <span class="align-middle">Beginner</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
+                        </span>
+                    </div>
+                    <div class="badge mx-1 my-1" style="background-color:#BFBF3F ;">
+                        <span class="align-middle">Intermediate</span>
+                        <span class="align-middle" hidden>
+                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
+                        </span>
+                    </div>
+                    <div class="badge mx-1 my-1" style="background-color: #BF3F3F;">
+                        <span class="align-middle">Expert
+                            <span class="align-middle" hidden>
+                                <button id="remove" type="button" class="btn-close btn-close-white"></button>
+                            </span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="mb-3">
+                        <label for="formFileMultiple" class="form-label">Images upload</label>
+                        <input class="form-control" type="file" id="formFileMultiple" name="image" multiple required>
+                    </div>
+                </div>
+                <div class="mb-3">
                     <button class="btn btn-success">Add Campground</button>
                 </div>
             </form>
             <a href="/campgrounds">All campgrounds</a>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <script>
+        $("#sortable1").sortable({
+            receive: function (event, ui) {
+                ui.item.children().prop('hidden', false)
+            },
+        }).disableSelection();
+        $("#sortable2").sortable({
+            connectWith: "#sortable1"
+        }).disableSelection();
+        $("#remove").on("click", function (event) {
+            console.log(event);
+        })
+    </script>

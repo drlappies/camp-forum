@@ -71,40 +71,18 @@ module.exports.userProfileRender = async (req, res) => {
         })
         .where('author').equals(user._id);
     let posts = await Campground.find({ author: user._id })
-    console.log(reviews)
-
     if (sortby) {
-        if (sortby === 'highestrated') {
+        if (sortby === 'mostpositive') {
             const regex = new RegExp(escapeRegex(query))
             posts = await Campground.find({ author: user._id, title: regex })
-                .sort({ rating: 'descending' })
-            return;
-        } else if (sortby === 'lowestrated') {
-            const regex = new RegExp(escapeRegex(query))
-            posts = await Campground.find({ author: user._id, title: regex })
-                .sort({ rating: 'ascending' })
-            return;
-        } else if (sortby === 'highestpriced') {
-            const regex = new RegExp(escapeRegex(query))
-            posts = await Campground.find({ author: user._id, title: regex })
-                .sort({ pricing: 'descending' })
-            return;
-        } else if (sortby === 'lowestpriced') {
-            const regex = new RegExp(escapeRegex(query))
-            posts = await Campgrounds.find({ author: user._id, title: regex })
-                .sort({ pricing: 'ascending' })
-            return;
+                .sort({ likeCount: 'descending' })
         } else if (sortby === 'mostreviewed') {
             const regex = new RegExp(escapeRegex(query))
             posts = await Campground.find({ author: user._id, title: regex })
-                .sort({ reviews: 'descending' })
-            return;
-        } else if (sortby === 'nosort') {
-            const regex = new RegExp(escapeRegex(query))
-            posts = await Campground.find({ author: user._id, title: regex })
+                .sort({ reviewCount: 'descending' })
         }
     }
-    res.render('users/profile', { user, reviews, posts });
+    res.render('users/profile', { user, reviews, posts, query, sortby });
 }
 
 module.exports.userProfileEditForm = async (req, res) => {

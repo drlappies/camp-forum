@@ -59,7 +59,8 @@ const scriptSrcUrls = [
     "https://kit.fontawesome.com",
     "https://cdnjs.cloudflare.com",
     "https://cdn.jsdelivr.net",
-    "https://code.jquery.com/jquery-3.6.0.js"
+    "https://code.jquery.com/jquery-3.6.0.js",
+    "https://code.jquery.com/ui/1.12.1/jquery-ui.js"
 ];
 const styleSrcUrls = [
     "https://kit-free.fontawesome.com",
@@ -69,13 +70,15 @@ const styleSrcUrls = [
     "https://fonts.googleapis.com",
     "https://use.fontawesome.com",
     "https://cdn.jsdelivr.net",
-    "https://code.jquery.com/jquery-3.6.0.js"
+    "https://code.jquery.com/jquery-3.6.0.js",
+    "https://code.jquery.com/ui/1.12.1/jquery-ui.js"
 ];
 const connectSrcUrls = [
     "https://api.mapbox.com",
     "https://*.tiles.mapbox.com",
     "https://events.mapbox.com",
-    "https://code.jquery.com/jquery-3.6.0.js"
+    "https://code.jquery.com/jquery-3.6.0.js",
+    "https://code.jquery.com/ui/1.12.1/jquery-ui.js"
 ];
 const fontSrcUrls = [];
 

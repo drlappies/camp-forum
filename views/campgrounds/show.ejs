@@ -51,6 +51,7 @@
                     <div class="card-body">
                         <div class="card-title fs-3">
                             <%= campground.title %>
+                            <% if(currentUser) { %>
                                 <div class="btn-group btn-group-sm float-end">
                                     <input type="radio" class="btn-check" name="dislike" id="like"
                                         <%=campground.like.includes(currentUser._id) ? 'checked' : '' %>>
@@ -65,7 +66,7 @@
                                         </span>
                                     </label>
                                     <input type="radio" class="btn-check" name="dislike" id="dislike"
-                                        <%=campground.dislike.includes(currentUser._id) ? 'checked' : '' %>>
+                                        <%= campground.dislike.includes(currentUser._id) ? 'checked' : '' %>>
                                     <label class="btn btn-outline-secondary" for="dislike" value="dislike">
                                         <span class="mx-1">
                                             <svg class="align-middle" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -77,6 +78,7 @@
                                         </span>
                                     </label>
                                 </div>
+                            <% } %>
                         </div>
                         <p class="card-text">
                             <%= campground.description %>

@@ -9,6 +9,7 @@ module.exports.createReview = async (req, res) => {
         campground: campground,
         body: body
     })
+    campground.reviewCount = campground.reviewCount + 1;
     campground.reviews.push(review);
     await review.save();
     await campground.save();
@@ -19,6 +20,7 @@ module.exports.createReview = async (req, res) => {
 module.exports.createChildReview = async (req, res) => {
     const { body } = req.body;
     const { id, reviewId } = req.params;
+    const campground = await Campground.findById(id);
     const parentReview = await Review.findById(reviewId);
     const childReview = new Review({
         author: req.user._id,
@@ -26,10 +28,12 @@ module.exports.createChildReview = async (req, res) => {
         campground: id,
         isParent: false,
         directParent: parentReview
-    })
+    });
+    campground.reviewCount = campground.reviewCount + 1;
     parentReview.children.push(childReview);
     await parentReview.save();
     await childReview.save();
+    await campground.save();
     res.redirect(`/campgrounds/${id}`);
 }
 

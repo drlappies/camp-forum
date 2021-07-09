@@ -80,17 +80,14 @@
                                 </svg>
                             </span>
                             <input class="form-control" type="text" name="query"
-                                placeholder="Search in <%= user.username %>'s posts history">
+                                placeholder="Search in <%= user.username %>'s posts history" value="<%= query %>">
                         </div>
                     </div>
                     <div class="col-2">
                         <select class="form-select" name="sortby">
-                            <option value="nosort" selected>Sort By:</option>
-                            <option value="highestrated">Highest rated</option>
-                            <option value="lowestrated">Lowest rated</option>
-                            <option value="highestpriced">Highest priced</option>
-                            <option value="lowestpriced">Lowest priced</option>
-                            <option value="mostreviewed">Most reviewed</option>
+                            <option value="none">Sort By:</option>
+                            <option value="mostpositive" <%= sortby === 'mostpositive' ? 'selected' : ''%>>Most Positive</option>
+                            <option value="mostreviewed" <%= sortby === 'mostreviewed' ? 'selected' : ''%>>Most Reviewed</option>
                         </select>
                     </div>
                     <div class="col-2">

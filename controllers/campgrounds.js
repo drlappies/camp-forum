@@ -1,8 +1,6 @@
 const Campground = require('../models/campground');
 const User = require('../models/user')
 const Review = require('../models/review');
-const mongoose = require('mongoose');
-
 const { cloudinary } = require('../cloudinary');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mbxToken = process.env.MAPBOX_TOKEN;
@@ -17,15 +15,25 @@ module.exports.index = async (req, res) => {
             const regex = new RegExp(escapeRegex(query));
             campground = await Campground
                 .find({ title: regex })
-                .sort({ createdAt: 'descending' });
+                .sort({ createdAt: 'descending' })
         } else if (sortby === 'mostupdated') {
             const regex = new RegExp(escapeRegex(query));
             campground = await Campground
                 .find({ title: regex })
                 .sort({ updatedAt: 'descending' })
+        } else if (sortby === 'mostreviewed') {
+            const regex = new RegExp(escapeRegex(query))
+            campground = await Campground
+                .find({ title: regex })
+                .sort({ reviewCount: 'descending' })
+        } else if (sortby === 'mostpositive') {
+            const regex = new RegExp(escapeRegex(query))
+            campground = await Campground
+                .find({ title: regex })
+                .sort({ likeCount: 'descending' })
         }
     }
-    res.render('campgrounds/index', { campground });
+    res.render('campgrounds/index', { campground, query, sortby });
 }
 
 module.exports.newFormRender = (req, res) => {
@@ -97,13 +105,14 @@ module.exports.delete = async (req, res) => {
 
 module.exports.rating = async (req, res) => {
     const user = await User.findById(req.user._id);
-    console.log(user)
     const hasLiked = await Campground.find({
+        _id: req.params.id,
         like: {
             $in: req.user._id
         }
     })
     const hasDisliked = await Campground.find({
+        _id: req.params.id,
         dislike: {
             $in: req.user._id
         }
@@ -111,10 +120,10 @@ module.exports.rating = async (req, res) => {
     const { status } = req.body
     if (status === "like") {
         if (hasLiked.length) {
-            console.log('you dont like twice');
+            console.log(`${user} already liked this, cannot write in`);
             return;
         } else if (hasDisliked.length) {
-            console.log('this guy disliked, pull from dislike and push to like');
+            console.log(`${user} disliked before, pull from dislike and write in like`);
             const campground = await Campground.findByIdAndUpdate(req.params.id, {
                 $pull: {
                     dislike: {
@@ -123,21 +132,24 @@ module.exports.rating = async (req, res) => {
                 }
             })
             campground.like.push(req.user._id);
+            campground.likeCount = campground.likeCount + 1;
+            campground.dislikeCount = campground.dislikeCount - 1;
             await campground.save();
             return;
         } else {
-            console.log('this guy never rated, push to like')
+            console.log(`${user} never rated before, write in like`)
             const campground = await Campground.findById(req.params.id);
             campground.like.push(req.user._id);
+            campground.likeCount = campground.likeCount + 1;
             await campground.save();
         }
         return;
     } else if (status === "dislike") {
         if (hasDisliked.length) {
-            console.log('you dont dislike twice');
+            console.log(`${user} already disliked, cannot write in`);
             return;
         } else if (hasLiked.length) {
-            console.log('this guy liked, pull from like to dislike');
+            console.log(`${user} already liked, pull from like and write in dislike`);
             const campground = await Campground.findByIdAndUpdate(req.params.id, {
                 $pull: {
                     like: {
@@ -146,12 +158,15 @@ module.exports.rating = async (req, res) => {
                 }
             })
             campground.dislike.push(req.user._id);
+            campground.dislikeCount = campground.dislikeCount + 1;
+            campground.likeCount = campground.likeCount - 1;
             await campground.save();
             return;
         } else {
-            console.log('never rated, push to dislike');
+            console.log(`${user} never rated, write in dislike`);
             const campground = await Campground.findById(req.params.id);
             campground.dislike.push(req.user._id);
+            campground.dislikeCount = campground.dislikeCount + 1;
             await campground.save();
         }
     }

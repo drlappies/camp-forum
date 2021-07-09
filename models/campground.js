@@ -36,18 +36,30 @@ const campgroundSchema = new mongoose.Schema({
             ref: 'Review'
         }
     ],
+    reviewCount: {
+        type: Number,
+        default: 0
+    },
     like: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
         }
     ],
+    likeCount: {
+        type: Number,
+        default: 0
+    },
     dislike: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
         }
     ],
+    dislikeCount: {
+        type: Number,
+        default: 0
+    },
     tag: [
         {
             type: Object,
