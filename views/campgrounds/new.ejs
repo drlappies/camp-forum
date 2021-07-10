@@ -1,116 +1,54 @@
 <% layout('layouts/boilerplate') %>
     <div class="row">
         <div class="col-6 offset-3">
-            <form action="/campgrounds" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+            <form class="validated-form" action="/campgrounds" method="POST" enctype="multipart/form-data" novalidate>
                 <div class="mb-3">
-                    <label class="form-label" for="validationCustom01">Title</label>
-                    <input class="form-control" type="text" id="validationCustom01" name="title" required>
+                    <label class="form-label" for="title">Title</label>
+                    <input class="form-control" type="text" id="title" name="title" required>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="validationCustom05">Description</label>
-                    <textarea class="form-control" type="text" id="validationCustom05" name="description"
-                        required></textarea>
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control" type="text" id="description" name="description" required></textarea>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="validationCustom02">Location</label>
-                    <input class="form-control" type="text" id="validationCustom02" name="location" required>
+                    <label class="form-label" for="location">Location</label>
+                    <input class="form-control" type="text" id="location" name="location" required>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                 </div>
                 <div>Tags</div>
-                <div id="sortable1" class="sortable1 dropzone my-3">
+                <input type="hidden" id="tags" name="tags">
+                <div id="set" class="dropzone my-3">
 
                 </div>
-                <div id="sortable2" class="sortable2 dropzone my-3">
-                    <div name="Glamping" class="badge mx-1 my-1" style="background-color: #B2B2B2">
-                        <span class="align-middle">Glamping</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
-                        </span>
-                    </div>
-                    <div name="Toilet" class="badge mx-1 my-1" style="background-color: #3F7FBF;">
-                        <span class="align-middle">Toilet</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
-                        </span>
-                    </div>
-                    <div name="Drying Rack" class="badge mx-1 my-1" style="background-color: #A3F4F4;">
-                        <span class="align-middle">Drying Rack</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
-                        </span>
-                    </div>
-                    <div name="Table" class="badge mx-1 my-1" style="background-color: #B96D21;">
-                        <span class="align-middle">Table</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
-                        </span>
-                    </div>
-                    <div name="Chair" class="badge mx-1 my-1" style="background-color: #B96D21;">
-                        <span class="align-middle">Chair</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white">
-                            </button>
-                        </span>
-                    </div>
-                    <div name="Water Tap" class="badge mx-1 my-1" style="background-color: #B2DBDB;">
-                        <span class="align-middle">Water Tap</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white">
-                            </button>
-                        </span>
-                    </div>
-                    <div name="Shower" class="badge mx-1 my-1" style="background-color: #3FBFBF;">
-                        <span class="align-middle">Shower</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white">
-                            </button>
-                        </span>
-                    </div>
-                    <div name="Playground" class="badge mx-1 my-1" style="background-color: #BF7F3F;">
-                        <span class="align-middle">Playground</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white">
-                            </button>
-                        </span>
-                    </div>
-                    <div name="" class="badge mx-1 my-1" style="background-color: #3F7FBF;">
-                        <span class="align-middle">Stream</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
-                        </span>
-                    </div>
-                    <div class="badge mx-1 my-1" style="background-color: #1C1616;">
-                        <span class="align-middle">Starnight</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
-                        </span>
-                    </div>
-                    <div class="badge mx-1 my-1" style="background-color: #3FBF3F;">
-                        <span class="align-middle">Beginner</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
-                        </span>
-                    </div>
-                    <div class="badge mx-1 my-1" style="background-color:#BFBF3F ;">
-                        <span class="align-middle">Intermediate</span>
-                        <span class="align-middle" hidden>
-                            <button id="remove" type="button" class="btn-close btn-close-white"></button>
-                        </span>
-                    </div>
-                    <div class="badge mx-1 my-1" style="background-color: #BF3F3F;">
-                        <span class="align-middle">Expert
-                            <span class="align-middle" hidden>
-                                <button id="remove" type="button" class="btn-close btn-close-white"></button>
-                            </span>
-                    </div>
+                <div id="get" class="dropzone my-3">
+                    <span id="Glamping" class="badge mx-1 my-1 dropable"
+                        style="background-color: #B2B2B2">Glamping</span>
+                    <span id="Toilet" class="badge mx-1 my-1 dropable" style="background-color: #3F7FBF">Toilet</span>
+                    <span id="Drying_Rack" class="badge mx-1 my-1 dropable" style="background-color: #A3F4F4">Drying
+                        Rack</span>
+                    <span id="Table" class="badge mx-1 my-1 dropable" style="background-color: #B96D21">Table</span>
+                    <span id="Chair" class="badge mx-1 my-1 dropable" style="background-color: #B96D21">Chair</span>
+                    <span id="Water_Tap" class="badge mx-1 my-1 dropable" style="background-color: #B2DBDB;">Water
+                        Tap</span>
+                    <span id="Shower" class="badge mx-1 my-1 dropable" style="background-color: #3FBFBF">Shower</span>
+                    <span id="Playground" class="badge mx-1 my-1 dropable"
+                        style="background-color: #BF7F3F;">Playground</span>
+                    <span id="Stream" class="badge mx-1 my-1 dropable" style="background-color: #3F7FBF;">Stream</span>
+                    <span id="Starnight" class="badge mx-1 my-1 dropable"
+                        style="background-color: #1C1616;">Starnight</span>
+                    <span id="Beginner" class="badge mx-1 my-1 dropable"
+                        style="background-color: #3FBF3F;">Beginner</span>
+                    <span id="Intermediate" class="badge mx-1 my-1 dropable"
+                        style="background-color: #BFBF3F;">Intermediate</span>
+                    <span id="Expert" class="badge mx-1 my-1 dropable" style="background-color: #BF3F3F;">Expert</span>
                 </div>
                 <div class="mb-3">
                     <div class="mb-3">
@@ -119,7 +57,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <button class="btn btn-success">Add Campground</button>
+                    <button type="submit" class="btn btn-success">Add Campground</button>
                 </div>
             </form>
             <a href="/campgrounds">All campgrounds</a>
@@ -129,16 +67,4 @@
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
         integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-    <script>
-        $("#sortable1").sortable({
-            receive: function (event, ui) {
-                ui.item.children().prop('hidden', false)
-            },
-        }).disableSelection();
-        $("#sortable2").sortable({
-            connectWith: "#sortable1"
-        }).disableSelection();
-        $("#remove").on("click", function (event) {
-            console.log(event);
-        })
-    </script>
+    <script src="/js/dnd.js"></script>

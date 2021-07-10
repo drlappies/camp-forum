@@ -22,7 +22,7 @@ router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(campgrounds.editFormRen
 
 router.put('/:id', isLoggedIn, isAuthor, upload.array('image'), validateCampground, catchAsync(campgrounds.edit));
 
-router.post('/', isLoggedIn, upload.array('image'), validateCampground, catchAsync(campgrounds.new))
+router.post('/', isLoggedIn, upload.array('image'), catchAsync(campgrounds.new))
 
 router.post('/:id', catchAsync(campgrounds.rating));
 

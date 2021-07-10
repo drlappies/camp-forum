@@ -3,7 +3,7 @@ const sanitizeHtml = require('sanitize-html');
 
 const extension = (joi) => ({
     type: 'string',
-    base: joi.string(), 
+    base: joi.string(),
     messages: {
         'string.escapeHTML': '{{#label}} must not include HTML!'
     },
@@ -26,7 +26,6 @@ const Joi = BaseJoi.extend(extension)
 module.exports.campgroundSchema = Joi.object({
     title: Joi.string().required().escapeHTML(),
     location: Joi.string().required().escapeHTML(),
-    price: Joi.number().required().min(0),
     description: Joi.string().required().escapeHTML(),
     deleteImages: Joi.array()
 }).required()

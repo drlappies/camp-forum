@@ -11,16 +11,17 @@
                                 d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                         </svg>
                     </span>
-                    <input class="form-control" type="text" name="query" placeholder="Search by title" value="<%=query%>">
+                    <input class="form-control" type="text" name="query" placeholder="Search by title"
+                        value="<%=query%>">
                 </div>
             </div>
             <div class="col-lg-3">
                 <select class="form-select" name="sortby">
                     <option value="none">Sort by:</option>
-                    <option value="mostrecent" <%= sortby === 'mostrecent' ? 'selected' : '' %>>Most Recent</option>
-                    <option value="mostupdated" <%= sortby === 'mostupdated' ? 'selected' : '' %>>Most Updated</option>
-                    <option value="mostreviewed" <%= sortby === 'mostreviewed' ? 'selected' : '' %>>Most Reviewed</option>
-                    <option value="mostpositive" <%= sortby === 'mostpositive' ? 'selected' : '' %>>Most Positive</option>
+                    <option value="mostrecent" <%=sortby==='mostrecent' ? 'selected' : '' %>>Most Recent</option>
+                    <option value="mostupdated" <%=sortby==='mostupdated' ? 'selected' : '' %>>Most Updated</option>
+                    <option value="mostreviewed" <%=sortby==='mostreviewed' ? 'selected' : '' %>>Most Reviewed</option>
+                    <option value="mostpositive" <%=sortby==='mostpositive' ? 'selected' : '' %>>Most Positive</option>
                 </select>
             </div>
             <div class="col-lg-1 d-grid">
@@ -64,8 +65,8 @@
                         </div>
                         <div class="my-1">
                             <% for(let el of camp.tag) { %>
-                                <span class="badge rounded-pill" style="background-color: <%= el.tagColor %>;">
-                                    <%= el.tagName %>
+                                <span class="badge rounded-pill bg-secondary">
+                                    <%= el %>
                                 </span>
                                 <% } %>
                         </div>

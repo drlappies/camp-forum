@@ -76,6 +76,8 @@ module.exports.edit = async (req, res, next) => {
 }
 
 module.exports.new = async (req, res, next) => {
+    const { tags } = req.body;
+    const tagsArr = tags.split(",")
     const geoData = await geocodingClient.forwardGeocode({
         query: req.body.location,
         limit: 1
@@ -84,14 +86,14 @@ module.exports.new = async (req, res, next) => {
         req.flash('error', 'Image upload is mandatory');
         res.redirect('/campgrounds/new')
     }
-    const user = await User.findById(req.user._id)
     const campground = new Campground(req.body);
     campground.geometry = geoData.body.features[0].geometry;
     campground.image = req.files.map(files => ({ url: files.path, filename: files.filename }));
     campground.author = req.user._id;
-    user.campground.push(campground);
+    tagsArr.forEach(el => {
+        campground.tag.push(el)
+    })
     await campground.save();
-    await user.save();
     req.flash('success', 'Successfully made a new campground');
     res.redirect(`/campgrounds/${campground._id}`);
 }

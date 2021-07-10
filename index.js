@@ -13,8 +13,9 @@ const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const cors = require('cors')
 
-const passport = require('passport'); 
+const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
 const User = require('./models/user');
@@ -45,6 +46,7 @@ app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));

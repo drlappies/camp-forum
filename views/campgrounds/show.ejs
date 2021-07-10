@@ -9,8 +9,8 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <% campground.tag.forEach(el=> { %>
-                                <div class="badge" style="background-color: <%= el.tagColor%>;">
-                                    <%= el.tagName %>
+                                <div class="badge bg-secondary">
+                                    <%= el %>
                                 </div>
                                 <% }) %>
                         </li>
@@ -92,8 +92,8 @@
                 </div>
                 <div class="d-lg-none">
                     <% campground.tag.forEach(el=> { %>
-                        <span class="badge rounded-pill" style="background-color: <%= el.tagColor %>;">
-                            <%= el.tagName %>
+                        <span class="badge rounded-pill bg-secondary">
+                            <%= el %>
                         </span>
                         <% }) %>
                 </div>
