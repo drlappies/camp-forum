@@ -19,6 +19,14 @@ const userSchema = new mongoose.Schema({
         filename: {
             type: String
         }
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    isBanned: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 

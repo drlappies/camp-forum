@@ -64,7 +64,7 @@ const campgroundSchema = new mongoose.Schema({
         {
             type: String,
         }
-    ],
+    ]
 }, { toJSON: { virtuals: true }, timestamps: true });
 
 campgroundSchema.index({ title: "text", description: "text", location: "text" })

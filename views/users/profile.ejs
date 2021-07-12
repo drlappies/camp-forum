@@ -25,6 +25,13 @@
                     <p class="text-muted fst-italic">
                         Last updated on <%= user.updatedAt %>
                     </p>
+                    <%if(!currentUser.equals(user)){ %>
+                    <p>
+                        <small class="float-end btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+                            data-bs-target="#reportuser">Report Abuse
+                        </small>
+                    </p>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -86,8 +93,10 @@
                     <div class="col-2">
                         <select class="form-select" name="sortby">
                             <option value="none">Sort By:</option>
-                            <option value="mostpositive" <%= sortby === 'mostpositive' ? 'selected' : ''%>>Most Positive</option>
-                            <option value="mostreviewed" <%= sortby === 'mostreviewed' ? 'selected' : ''%>>Most Reviewed</option>
+                            <option value="mostpositive" <%=sortby==='mostpositive' ? 'selected' : '' %>>Most Positive
+                            </option>
+                            <option value="mostreviewed" <%=sortby==='mostreviewed' ? 'selected' : '' %>>Most Reviewed
+                            </option>
                         </select>
                     </div>
                     <div class="col-2">
@@ -127,6 +136,40 @@
                                     </div>
                                 </div>
                                 <% }) %>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="reportuser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Report</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/moderation/report/user/<%= user._id%>" method="POST">
+                        <div class="modal-body">
+                            <div class="my-2">
+                                <label for="reason">
+                                    <span class="fw-bold">Reason:</span>
+                                </label>
+                            </div>
+                            <div class="my-2">
+                                <input class="form-control" type="text" id="reason" name="reason">
+                            </div>
+                            <div class="my-2">
+                                <label for="desc">
+                                    <span class="fw-bold">Description:</span>
+                                </label>
+                            </div>
+                            <div class="my-2">
+                                <textarea class="form-control" type="text" id="desc" name="description" rows="5" style="width: 100%;"
+                                    placeholder="Please provide reason why do you think this user has violated the terms of use in less than 100 words."></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Report</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

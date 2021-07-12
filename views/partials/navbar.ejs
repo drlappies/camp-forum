@@ -19,6 +19,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/profile">Users</a>
                 </li>
+                <% if(currentUser) { %>
+                    <% if (currentUser.isAdmin){ %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/moderation">Moderation</a>
+                        </li>
+                    <% } %>
+                <% } %>
             </ul>
             <div class="navbar-nav ms-auto">
                 <% if (!currentUser) { %>
@@ -29,7 +36,7 @@
                             <a class="nav-link" href="/profile/<%=currentUser.id%>">Profile</a>
                         </li>
                         <a class="nav-link" href="/logout">Logout</a>
-                    <% } %>
+                        <% } %>
             </div>
         </div>
     </div>

@@ -13,19 +13,14 @@ const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const cors = require('cors')
-
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-
 const User = require('./models/user');
-
 const ExpressError = require('./utils/ExpressError');
-
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
-
+const adminRoutes = require('./routes/admin');
 const dbUrl = process.env.NODE_ENV !== 'production' ? 'mongodb://localhost:27017/yelp-camp' : process.env.DB_URL
 
 mongoose.connect(dbUrl, {
@@ -46,7 +41,6 @@ app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -157,6 +151,7 @@ app.use((req, res, next) => {
 app.use('/', userRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
+app.use('/moderation', adminRoutes);
 
 app.get('/', (req, res) => {
     res.render('home');

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Campground = require('../models/campground');
 const Review = require('../models/review');
 const User = require('../models/user');
+const Report = require('../models/report');
 const cities = require('./cities');
 const { places, descriptors } = require('./seedHelpers');
 
@@ -26,10 +27,12 @@ const seedDB = async () => {
     await Campground.deleteMany({});
     await Review.deleteMany({});
     await User.deleteMany({});
+    await Report.deleteMany({});
     const masterUser = new User({
         email: 'admin@admin.com',
         username: 'admin',
-        about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc non dignissim est. Praesent eu tempor tellus. In leo ante, imperdiet ut lacus non, fringilla vulputate purus.'
+        about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc non dignissim est. Praesent eu tempor tellus. In leo ante, imperdiet ut lacus non, fringilla vulputate purus.',
+        isAdmin: true
     })
     const addUser = await User.register(masterUser, 'admin');
     for (let i = 0; i < 50; i++) {
@@ -57,7 +60,7 @@ const seedDB = async () => {
                 type: 'Point',
                 coordinates: [cities[random1000].longitude, cities[random1000].latitude]
             },
-            tag: ['Glamping', 'Toilet', 'Drying_Rack', 'Table', 'Chair', 'Water Tap', 'Shower', 'Playground', 'Stream', 'Starnight', 'Beginner', 'Intermediate', 'Expert']
+            tag: ['Glamping', 'Toilet', 'Drying_Rack', 'Table', 'Chair', 'Water Tap', 'Shower', 'Playground', 'Stream', 'Starnight', 'Beginner', 'Intermediate', 'Expert'],
         })
         await masterUser.save();
         await camp.save();
