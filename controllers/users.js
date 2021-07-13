@@ -38,9 +38,16 @@ module.exports.loginFormRender = (req, res) => {
 }
 
 module.exports.login = (req, res) => {
-    req.flash('success', `Welcome back, ${req.user.username}!`);
-    const redirectUrl = req.session.returnTo;
-    res.redirect(redirectUrl);
+    console.log(req.user)
+    if (req.user.isBanned) {
+        req.logout();
+        req.flash('error', 'This account has been banned')
+        res.redirect('/login')
+    } else {
+        req.flash('success', `Welcome back, ${req.user.username}!`);
+        const redirectUrl = req.session.returnTo;
+        res.redirect(redirectUrl);
+    }
 }
 
 module.exports.logout = (req, res) => {

@@ -164,11 +164,14 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
+                                    <div class="my-2 fw-bold">Suspect ID:</div>
+                                    <div class="my-2"><%= el.suspect._id %></div>
+                                    <div class="my-2 fw-bold">Suspect Username:</div>
+                                    <div class="my-2"><%= el.suspect.username %></div>
                                     <form action="/moderation/report/<%= el.id %>/<%= el.model %>/<%= el.object._id %>" method="POST">
                                         <div class="my-4">
                                             <select class="form-select" name="punishment">
                                                 <option selected>Select an action</option>
-                                                <option value="warning">Warning</option>
                                                 <option value="5ban">5 Days Ban</option>
                                                 <option value="15ban">15 Days Ban</option>
                                                 <option value="permaban">Permanent Ban</option>

@@ -21,6 +21,8 @@ const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
 const adminRoutes = require('./routes/admin');
+const cron = require('node-cron');
+const moment = require('moment');
 const dbUrl = process.env.NODE_ENV !== 'production' ? 'mongodb://localhost:27017/yelp-camp' : process.env.DB_URL
 
 mongoose.connect(dbUrl, {
@@ -156,6 +158,12 @@ app.use('/moderation', adminRoutes);
 app.get('/', (req, res) => {
     res.render('home');
 });
+
+const currentTime = moment().clone().toDate();
+cron.schedule('*/1 * * * * *', async () => {
+    console.log(currentTime)
+    await User.updateMany({ bannedUntil: currentTime }, { isBanned: false })
+})
 
 app.all('*', (res, req, next) => {
     next(new ExpressError('Page not found', 404));
