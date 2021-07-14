@@ -1,38 +1,47 @@
 <% layout('layouts/boilerplate') %>
     <div class="container">
         <div id="cluster-map" class="mb-3 d-none d-lg-block"></div>
-        <form class="row g-3 mb-3">
-            <div class="col-lg-8">
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-search" viewBox="0 0 16 16">
-                            <path
-                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                        </svg>
-                    </span>
-                    <input class="form-control" type="text" name="query" placeholder="Search by title"
-                        value="<%=query%>">
-                </div>
+        <div class="row g-3 mb-3">
+            <div class="col-lg-7">
+                <form>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-search" viewBox="0 0 16 16">
+                                <path
+                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg>
+                        </span>
+                        <input class="form-control" type="text" name="query" placeholder="Search by title"
+                            value="<%=query%>">
+                    </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <select class="form-select" name="sortby">
                     <option value="none">Sort by:</option>
                     <option value="mostrecent" <%=sortby==='mostrecent' ? 'selected' : '' %>>Most Recent</option>
                     <option value="mostupdated" <%=sortby==='mostupdated' ? 'selected' : '' %>>Most Updated</option>
-                    <option value="mostreviewed" <%=sortby==='mostreviewed' ? 'selected' : '' %>>Most Reviewed</option>
-                    <option value="mostpositive" <%=sortby==='mostpositive' ? 'selected' : '' %>>Most Positive</option>
+                    <option value="mostreviewed" <%=sortby==='mostreviewed' ? 'selected' : '' %>>Most Reviewed
+                    </option>
+                    <option value="mostpositive" <%=sortby==='mostpositive' ? 'selected' : '' %>>Most Positive
+                    </option>
                 </select>
             </div>
             <div class="col-lg-1 d-grid">
                 <button class="btn btn-secondary" type="submit">Search</button>
             </div>
-        </form>
+            </form>
+            <div class="col-lg-2 d-grid">
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createpost">Create
+                    Post</button>
+            </div>
+        </div>
+
         <div class="d-flex flex-column aligns-item-stretch">
             <% for (let camp of campground){ %>
                 <div class="card my-2 d-flex flex-row">
-                    <img class="d-none d-md-block" style="width:300px; height: 200px;" src="<%= camp.image[0].thumbnail %>"
-                        alt="img-thumbnail">
+                    <img class="d-none d-md-block" style="width:300px; height: 200px;"
+                        src="<%= camp.image[0].thumbnail %>" alt="img-thumbnail">
                     <div class="card-body">
                         <div class="card-title fs-5 my-1">
                             <%= camp.title %>
@@ -78,9 +87,84 @@
                 </div>
                 <% } %>
         </div>
-    </div>
-    <script>
-        const mapToken = '<%-process.env.MAPBOX_TOKEN %>'
-        const campground = { features: <%-JSON.stringify(campground) %> }
-    </script>
-    <script src="/js/clusterMap.js"></script>
+        <div class="modal fade" id="createpost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create a post</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form class="validated-form" action="/campgrounds" method="POST" enctype="multipart/form-data"
+                            novalidate>
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Title</label>
+                                <input class="form-control" type="text" id="title" name="title" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="description">Description</label>
+                                <textarea class="form-control" type="text" id="description" name="description" rows="7"
+                                    required></textarea>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="location">Location</label>
+                                <input class="form-control" type="text" id="location" name="location" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <div>Tags</div>
+                            <input type="hidden" id="tags" name="tags">
+                            <div id="set" class="dropzone my-3">
+                            </div>
+                            <div id="get" class="dropzone my-3">
+                                <span id="Glamping" class="badge bg-secondary mx-1 my-1 dropable">Glamping</span>
+                                <span id="Toilet" class="badge bg-secondary mx-1 my-1 dropable">Toilet</span>
+                                <span id="Drying_Rack" class="badge bg-secondary mx-1 my-1 dropable">Drying
+                                    Rack</span>
+                                <span id="Table" class="badge bg-secondary mx-1 my-1 dropable">Table</span>
+                                <span id="Chair" class="badge bg-secondary  mx-1 my-1 dropable">Chair</span>
+                                <span id="Water_Tap" class="badge bg-secondary mx-1 my-1 dropable">Water
+                                    Tap</span>
+                                <span id="Shower" class="badge  bg-secondary mx-1 my-1 dropable">Shower</span>
+                                <span id="Playground" class="badge  bg-secondary mx-1 my-1 dropable">Playground</span>
+                                <span id="Stream" class="badge bg-secondary mx-1 my-1 dropable">Stream</span>
+                                <span id="Starnight" class="badge bg-secondary mx-1 my-1 dropable">Starnight</span>
+                                <span id="Beginner" class="badge bg-secondary mx-1 my-1 dropable">Beginner</span>
+                                <span id="Intermediate"
+                                    class="badge bg-secondary mx-1 my-1 dropable">Intermediate</span>
+                                <span id="Expert" class="badge bg-secondary mx-1 my-1 dropable">Expert</span>
+                            </div>
+                            <div class=" mb-3">
+                                <div class="mb-3">
+                                    <label for="formFileMultiple" class="form-label">Images upload</label>
+                                    <input class="form-control" type="file" id="formFileMultiple" name="image" multiple
+                                        required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Post</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const mapToken = '<%-process.env.MAPBOX_TOKEN %>'
+            const campground = { features: <%-JSON.stringify(campground) %> }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+        <script src="/js/tagging.js"></script>
+        <script src="/js/clusterMap.js"></script>

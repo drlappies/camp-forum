@@ -47,14 +47,4 @@ const autoPopulateChildren = function (next) {
 
 reviewSchema.pre('find', autoPopulateChildren).pre('find', autoPopulateChildren);
 
-reviewSchema.post('findOneAndDelete', async function (data) {
-    await User.findByIdAndUpdate(data.author, {
-        $pull: {
-            reviews: {
-                $in: data._id
-            }
-        }
-    })
-})
-
 module.exports = mongoose.model('Review', reviewSchema);

@@ -10,7 +10,6 @@ module.exports.index = async (req, res) => {
         .populate('object')
         .populate('suspect')
         .populate('informer')
-    console.log(reports)
     res.render('moderation/index', { reports });
 }
 

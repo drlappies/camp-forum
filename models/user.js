@@ -14,7 +14,6 @@ const userSchema = new mongoose.Schema({
     icon: {
         url: {
             type: String,
-            default: 'https://res.cloudinary.com/davxrgxza/image/upload/v1625464394/YelpCamp/default-profile-pic-e1513291410505_xmic5z.jpg'
         },
         filename: {
             type: String

@@ -2,6 +2,7 @@ const User = require('../models/user');
 const Review = require('../models/review');
 const Campground = require('../models/campground');
 const escapeRegex = require('../utils/escapeRegex');
+const { cloudinary } = require('../cloudinary');
 
 module.exports.registerFormRender = (req, res) => {
     res.render('users/register');
@@ -104,10 +105,14 @@ module.exports.userProfileEdit = async (req, res) => {
     const user = await User.findByIdAndUpdate(id, {
         about: about
     });
-    if (req.files) {
-        user.icon.url = req.files.path,
-            user.icon.filename = req.files.filename
+    if (req.files.length) {
+        if (user.icon.url) {
+            await cloudinary.uploader.destroy(user.icon.filename);
+        }
+        user.icon.url = req.files[0].path
+        user.icon.filename = req.files[0].filename
     }
     await user.save()
+    req.flash('success', 'Successfully updated your profile.')
     res.redirect(`/profile/${user._id}`)
 }

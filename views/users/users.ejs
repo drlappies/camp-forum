@@ -24,7 +24,12 @@
                 <div class="card my-1 mx-1">
                     <div class="card-body d-flex flex-row">
                         <div class="mx-1">
-                            <img class="profile-pic" src="<%= user.icon.url%>" alt="propic">
+                            <% if(user.icon.url) { %>
+                                <img class="profile-pic-comment" src="<%= user.icon.url%>" alt="propic">
+                                <% } else { %>
+                                    <img class="profile-pic-comment"
+                                        src="https://res.cloudinary.com/davxrgxza/image/upload/v1626238142/YelpCamp/defaultpropic_ndezvx.png">
+                            <% } %>
                         </div>
                         <div class="mx-1">
                             <div class="card-text">

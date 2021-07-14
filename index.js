@@ -125,8 +125,8 @@ const sessionConfig = {
     cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV !== 'production' ? false : true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1000 msec * 60 sec * 60 minutes * 24 hrs * 7 days = expire after 1 week
-        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week life
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }
 
@@ -161,7 +161,6 @@ app.get('/', (req, res) => {
 
 const currentTime = moment().clone().toDate();
 cron.schedule('*/1 * * * * *', async () => {
-    console.log(currentTime)
     await User.updateMany({ bannedUntil: currentTime }, { isBanned: false })
 })
 

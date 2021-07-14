@@ -10,7 +10,7 @@ const upload = multer({ storage });
 
 router.get('/register', users.registerFormRender);
 
-router.post('/register', upload.single('profilePicture'), catchAsync(users.register));
+router.post('/register', upload.array('image'), catchAsync(users.register));
 
 router.get('/login', users.loginFormRender);
 
@@ -24,6 +24,6 @@ router.get('/profile/:id', catchAsync(users.userProfileRender));
 
 router.get('/profile/:id/edit', catchAsync(users.userProfileEditForm));
 
-router.put('/profile/:id', upload.single('profilePicture'), catchAsync(users.userProfileEdit));
+router.put('/profile/:id', upload.array('image'), catchAsync(users.userProfileEdit));
 
 module.exports = router;

@@ -11,7 +11,8 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
-                    <textarea class="form-control" type="text" id="description" name="description" required></textarea>
+                    <textarea class="form-control" type="text" id="description" name="description" rows="7"
+                        required></textarea>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -29,38 +30,32 @@
 
                 </div>
                 <div id="get" class="dropzone my-3">
-                    <span id="Glamping" class="badge mx-1 my-1 dropable"
-                        style="background-color: #B2B2B2">Glamping</span>
-                    <span id="Toilet" class="badge mx-1 my-1 dropable" style="background-color: #3F7FBF">Toilet</span>
-                    <span id="Drying_Rack" class="badge mx-1 my-1 dropable" style="background-color: #A3F4F4">Drying
+                    <span id="Glamping" class="badge bg-secondary mx-1 my-1 dropable">Glamping</span>
+                    <span id="Toilet" class="badge bg-secondary mx-1 my-1 dropable">Toilet</span>
+                    <span id="Drying_Rack" class="badge bg-secondary mx-1 my-1 dropable">Drying
                         Rack</span>
-                    <span id="Table" class="badge mx-1 my-1 dropable" style="background-color: #B96D21">Table</span>
-                    <span id="Chair" class="badge mx-1 my-1 dropable" style="background-color: #B96D21">Chair</span>
-                    <span id="Water_Tap" class="badge mx-1 my-1 dropable" style="background-color: #B2DBDB;">Water
+                    <span id="Table" class="badge bg-secondary mx-1 my-1 dropable">Table</span>
+                    <span id="Chair" class="badge bg-secondary  mx-1 my-1 dropable">Chair</span>
+                    <span id="Water_Tap" class="badge bg-secondary mx-1 my-1 dropable">Water
                         Tap</span>
-                    <span id="Shower" class="badge mx-1 my-1 dropable" style="background-color: #3FBFBF">Shower</span>
-                    <span id="Playground" class="badge mx-1 my-1 dropable"
-                        style="background-color: #BF7F3F;">Playground</span>
-                    <span id="Stream" class="badge mx-1 my-1 dropable" style="background-color: #3F7FBF;">Stream</span>
-                    <span id="Starnight" class="badge mx-1 my-1 dropable"
-                        style="background-color: #1C1616;">Starnight</span>
-                    <span id="Beginner" class="badge mx-1 my-1 dropable"
-                        style="background-color: #3FBF3F;">Beginner</span>
-                    <span id="Intermediate" class="badge mx-1 my-1 dropable"
-                        style="background-color: #BFBF3F;">Intermediate</span>
-                    <span id="Expert" class="badge mx-1 my-1 dropable" style="background-color: #BF3F3F;">Expert</span>
+                    <span id="Shower" class="badge  bg-secondary mx-1 my-1 dropable">Shower</span>
+                    <span id="Playground" class="badge  bg-secondary mx-1 my-1 dropable">Playground</span>
+                    <span id="Stream" class="badge bg-secondary mx-1 my-1 dropable">Stream</span>
+                    <span id="Starnight" class="badge bg-secondary mx-1 my-1 dropable">Starnight</span>
+                    <span id="Beginner" class="badge bg-secondary mx-1 my-1 dropable">Beginner</span>
+                    <span id="Intermediate" class="badge bg-secondary mx-1 my-1 dropable">Intermediate</span>
+                    <span id="Expert" class="badge bg-secondary mx-1 my-1 dropable">Expert</span>
                 </div>
-                <div class="mb-3">
+                <div class=" mb-3">
                     <div class="mb-3">
                         <label for="formFileMultiple" class="form-label">Images upload</label>
                         <input class="form-control" type="file" id="formFileMultiple" name="image" multiple required>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-success">Add Campground</button>
+                <div class="mb-3 float-end">
+                    <button type="submit" class="btn btn-secondary">Post</button>
                 </div>
             </form>
-            <a href="/campgrounds">All campgrounds</a>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.js"

@@ -78,6 +78,7 @@ module.exports.edit = async (req, res, next) => {
 module.exports.new = async (req, res, next) => {
     const { tags } = req.body;
     const tagsArr = tags.split(",")
+    console.log(tagsArr)
     const geoData = await geocodingClient.forwardGeocode({
         query: req.body.location,
         limit: 1
@@ -90,9 +91,11 @@ module.exports.new = async (req, res, next) => {
     campground.geometry = geoData.body.features[0].geometry;
     campground.image = req.files.map(files => ({ url: files.path, filename: files.filename }));
     campground.author = req.user._id;
-    tagsArr.forEach(el => {
-        campground.tag.push(el)
-    })
+    if (tagsArr[0].length !== 0) {
+        tagsArr.forEach(el => {
+            campground.tag.push(el)
+        })
+    }
     await campground.save();
     req.flash('success', 'Successfully made a new campground');
     res.redirect(`/campgrounds/${campground._id}`);

@@ -4,7 +4,7 @@
             <div class="d-flex flex-column">
                 <div class="d-flex flex-row">
                     <div class="mx-2">
-                        <img class="profile-pic" src="<%= review.author.icon.url %>" alt="reviewer icon">
+                        <img class="profile-pic-comment" src="<%= review.author.icon.url %>" alt="reviewer icon">
                     </div>
                     <div class="mx-2 flex-grow-1">
                         <div>
@@ -78,7 +78,7 @@
                                         </label>
                                     </div>
                                     <div class="my-2">
-                                        <input class="form-control" type="text" id="reason" name="reason">
+                                        <input class="form-control" type="text" id="reason" name="reason" placeholder="The reason why this post has violated the rules.">
                                     </div>
                                     <div class="my-2">
                                         <label for="desc">
@@ -88,7 +88,7 @@
                                     <div class="my-2">
                                         <textarea class="form-control" type="text" id="desc" name="description" rows="5"
                                             style="width: 100%;"
-                                            placeholder="Please provide reason why do you think this comment has violated the terms of use in less than 100 words."></textarea>
+                                            placeholder="Please provide reason why do you think this comment has violated rules in less than 50 words."></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
