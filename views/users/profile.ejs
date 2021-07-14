@@ -44,7 +44,7 @@
             <div class="col-md-4">
                 <h5>Recent comments</h5>
                 <% if(!reviews.length){ %>
-                    <div class="text-muted">
+                    <div class="text-muted my-5 text-center">
                         <%= user.username %> has not made any comments yet :'(
                     </div>
                     <% } %>
@@ -81,8 +81,8 @@
                                         <% }) %>
             </div>
             <div class="col-md-8">
-                <form class="row g-1" action="/profile/<%=user._id%>" method="GET">
-                    <div class="col-lg-8">
+                <form class="row g-1 mb-3" action="/profile/<%=user._id%>" method="GET">
+                    <div class="col-lg-7">
                         <div class="input-group mb-3">
                             <span class="input-group-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -104,7 +104,7 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-2 d-grid" style="height: 38px">
                         <button class="btn btn-secondary" type="submit">Search</button>
                     </div>
                 </form>
